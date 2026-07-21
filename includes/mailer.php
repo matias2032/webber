@@ -104,7 +104,7 @@ function sendAutoReply(string $toEmail, string $toName, string $serviceType = ''
         $body_lines = [
             'Olá ' . $toName . ',',
             '',
-            'Recebemos o seu pedido de orçamento' . ($serviceType !== '' ? ' sobre "' . $serviceType . '"' : '') . '.',
+            'Recebemos o seu pedido de orçamento' . ($serviceType !== '' ? ' do(s) serviço(s) "' . $serviceType . '"' : '') . '.',
             '',
             'A nossa equipa vai analisar os detalhes e entrará em contacto em breve, geralmente dentro do horário comercial (Segunda a Sexta, 08h00-17h00).',
             '',
