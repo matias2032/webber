@@ -13,7 +13,7 @@ $name = '';
 $email = '';
 $phone = '';
 $company = '';
-$service_type = '';
+$selected_services = [];
 $subject = '';
 $message = '';
 $consent = false;
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $company = trim($_POST['company'] ?? '');
-    $service_type = trim($_POST['service_type'] ?? '');
+    $selected_services = array_filter(array_map('trim', $_POST['service_type'] ?? []));
     $subject = trim($_POST['subject'] ?? '');
     $message = trim($_POST['message'] ?? '');
     $consent = isset($_POST['consent']);
@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Por favor, insira o seu telefone.';
     }
 
-    if ($service_type === '') {
-        $errors[] = 'Por favor, selecione o tipo de serviço.';
+    if (empty($selected_services)) {
+        $errors[] = 'Por favor, selecione pelo menos um tipo de serviço.';
     }
 
     if ($message === '') {
@@ -64,13 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
 
+$services_final = implode(', ', $selected_services);
+
         $subject_final =
             ($subject !== ''
                 ? $subject
                 : 'Contacto através do website'
             )
             . ' - '
-            . $service_type;
+            . $services_final;
 
         $body_lines = [
             'Nova solicitação recebida através do website da STECH ENGENHARIA.',
@@ -79,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'E-mail: ' . $email,
             'Telefone: ' . $phone,
             'Empresa: ' . ($company !== '' ? $company : 'Não informada'),
-            'Serviço: ' . $service_type,
+            'Serviços: ' . $services_final,
             'Assunto: ' . ($subject !== '' ? $subject : 'Não informado'),
             '',
             'Mensagem:',
@@ -136,7 +138,7 @@ if ($sent) {
     // ─────────────────────────────────────────────────
     // ENVIO DE AUTO-RESPOSTA (via includes/mailer.php)
     // ─────────────────────────────────────────────────
-    sendAutoReply($email, $name, $service_type);
+    sendAutoReply($email, $name, $services_final);
 
     $success_message =
         'Mensagem enviada com sucesso! '
@@ -146,7 +148,7 @@ if ($sent) {
     $email = '';
     $phone = '';
     $company = '';
-    $service_type = '';
+    $selected_services = [];
     $subject = '';
     $message = '';
     $consent = false;
@@ -855,81 +857,73 @@ if ($sent) {
 
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
 
-                                    <label
-                                        for="service_type"
-                                        class="form-label"
-                                    >
-                                        Tipo de serviço *
-                                    </label>
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                                    <div class="contact-input-group">
+                                        <label class="form-label mb-0">
+                                            Tipo de serviço * (pode escolher mais de um)
+                                        </label>
 
-                                        <span class="contact-input-icon">
-                                            <i class="fa-solid fa-layer-group"></i>
-                                        </span>
-
-                                        <select
-                                            id="service_type"
-                                            name="service_type"
-                                            class="form-select"
-                                            required
+                                        <button
+                                            type="button"
+                                            id="clearServicesButton"
+                                            class="btn btn-link btn-sm p-0"
                                         >
-
-                                            <option
-                                                value=""
-                                                disabled
-                                                <?= $service_type === ''
-                                                    ? 'selected'
-                                                    : ''
-                                                ?>
-                                            >
-                                                Selecione o serviço
-                                            </option>
-
-                                            <?php
-
-                                            $services = [
-                                                'Segurança Tecnológica (CCTV, Alarmes)',
-                                                'Desenvolvimento Web/Mobile',
-                                                'Redes e Sistemas',
-                                                'Manutenção de Equipamentos',
-                                                'Design Gráfico',
-                                                'Contrato de Manutenção',
-                                                'Outro',
-                                            ];
-
-                                            foreach ($services as $service):
-
-                                            ?>
-
-                                                <option
-                                                    value="<?= htmlspecialchars(
-                                                        $service,
-                                                        ENT_QUOTES,
-                                                        'UTF-8'
-                                                    ) ?>"
-                                                    <?= $service_type === $service
-                                                        ? 'selected'
-                                                        : ''
-                                                    ?>
-                                                >
-                                                    <?= htmlspecialchars(
-                                                        $service,
-                                                        ENT_QUOTES,
-                                                        'UTF-8'
-                                                    ) ?>
-                                                </option>
-
-                                            <?php endforeach; ?>
-
-                                        </select>
+                                            Limpar seleção
+                                        </button>
 
                                     </div>
 
-                                    <div class="invalid-feedback">
-                                        Selecione um serviço.
+                                    <div
+                                        class="contact-services-group"
+                                        id="servicesGroup"
+                                    >
+
+                                        <?php
+
+                                        $services = [
+                                            'Segurança Tecnológica (CCTV, Alarmes)',
+                                            'Desenvolvimento Web/Mobile',
+                                            'Redes e Sistemas',
+                                            'Manutenção de Equipamentos',
+                                            'Design Gráfico',
+                                            'Contrato de Manutenção',
+                                            'Outro',
+                                        ];
+
+                                        foreach ($services as $index => $service):
+
+                                            $checked = in_array($service, $selected_services, true);
+
+                                        ?>
+
+                                            <div class="form-check contact-service-check">
+
+                                                <input
+                                                    type="checkbox"
+                                                    class="form-check-input service-checkbox"
+                                                    id="service_<?= $index ?>"
+                                                    name="service_type[]"
+                                                    value="<?= htmlspecialchars($service, ENT_QUOTES, 'UTF-8') ?>"
+                                                    <?= $checked ? 'checked' : '' ?>
+                                                >
+
+                                                <label
+                                                    class="form-check-label"
+                                                    for="service_<?= $index ?>"
+                                                >
+                                                    <?= htmlspecialchars($service, ENT_QUOTES, 'UTF-8') ?>
+                                                </label>
+
+                                            </div>
+
+                                        <?php endforeach; ?>
+
+                                    </div>
+
+                                    <div class="invalid-feedback d-block" id="servicesError" style="display: none !important;">
+                                        Selecione pelo menos um serviço.
                                     </div>
 
                                 </div>
@@ -1266,8 +1260,6 @@ const revealObserver = new IntersectionObserver(
     const progressValue =
         document.getElementById('formProgressValue');
 
-    const serviceSelect =
-        document.getElementById('service_type');
 
     const servicePreview =
         document.getElementById('servicePreview');
@@ -1285,11 +1277,10 @@ const revealObserver = new IntersectionObserver(
     // PROGRESSO
     // ─────────────────────────────────────────────────────────
 
-    const progressFields = [
+  const progressFields = [
         'name',
         'email',
         'phone',
-        'service_type',
         'message',
         'consent'
     ];
@@ -1297,6 +1288,7 @@ const revealObserver = new IntersectionObserver(
     function updateFormProgress() {
 
         let completed = 0;
+        const totalFields = progressFields.length + 1; // +1 pelo grupo de serviços
 
         progressFields.forEach(function (fieldId) {
 
@@ -1316,8 +1308,15 @@ const revealObserver = new IntersectionObserver(
             }
         });
 
+        const anyServiceChecked =
+            document.querySelectorAll('.service-checkbox:checked').length > 0;
+
+        if (anyServiceChecked) {
+            completed++;
+        }
+
         const percentage = Math.round(
-            completed / progressFields.length * 100
+            completed / totalFields * 100
         );
 
         if (progressBar) {
@@ -1339,6 +1338,10 @@ const revealObserver = new IntersectionObserver(
 
         field.addEventListener('input', updateFormProgress);
         field.addEventListener('change', updateFormProgress);
+    });
+
+    document.querySelectorAll('.service-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', updateFormProgress);
     });
 
     updateFormProgress();
@@ -1370,46 +1373,57 @@ const revealObserver = new IntersectionObserver(
             'Descreva a sua necessidade para prepararmos uma solução personalizada.'
     };
 
-    function updateServicePreview() {
+function updateServicePreview() {
 
-        if (
-            !serviceSelect
-            || !servicePreview
-            || !servicePreviewText
-        ) {
+        if (!servicePreview || !servicePreviewText) {
             return;
         }
 
-        const selectedService = serviceSelect.value;
-
-        if (
-            selectedService
-            && serviceDescriptions[selectedService]
-        ) {
-
-            servicePreviewText.textContent =
-                serviceDescriptions[selectedService];
-
-            servicePreview.classList.add('is-active');
-
-        } else {
-
-            servicePreviewText.textContent =
-                'Selecione um serviço para receber uma breve orientação.';
-
-            servicePreview.classList.remove('is-active');
-        }
-    }
-
-    if (serviceSelect) {
-        serviceSelect.addEventListener(
-            'change',
-            updateServicePreview
+        const checkedBoxes = Array.from(
+            document.querySelectorAll('.service-checkbox:checked')
         );
 
-        updateServicePreview();
+        if (checkedBoxes.length === 0) {
+
+            servicePreviewText.textContent =
+                'Selecione um ou mais serviços para receber uma breve orientação.';
+
+            servicePreview.classList.remove('is-active');
+
+            return;
+        }
+
+        const descriptions = checkedBoxes
+            .map(function (checkbox) {
+                return serviceDescriptions[checkbox.value] || null;
+            })
+            .filter(Boolean);
+
+        servicePreviewText.textContent = descriptions.join(' ');
+
+        servicePreview.classList.add('is-active');
     }
 
+    document.querySelectorAll('.service-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', updateServicePreview);
+    });
+
+    updateServicePreview();
+
+    const clearServicesButton = document.getElementById('clearServicesButton');
+
+    if (clearServicesButton) {
+
+        clearServicesButton.addEventListener('click', function () {
+
+            document.querySelectorAll('.service-checkbox').forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+
+            updateServicePreview();
+            updateFormProgress();
+        });
+    }
     // ─────────────────────────────────────────────────────────
     // CONTADOR DA MENSAGEM
     // ─────────────────────────────────────────────────────────
