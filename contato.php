@@ -1,5 +1,6 @@
 <?php
-
+require_once __DIR__ . '/includes/i18n.php';
+require_once __DIR__ . '/includes/mailer.php';
 $current_page = 'contact';
 
 // ─────────────────────────────────────────────────────────────
@@ -18,6 +19,18 @@ $subject = '';
 $message = '';
 $consent = false;
 
+// Slugs estáveis dos serviços (independentes de idioma).
+// O texto visível de cada um vem de t('contact.service_N').
+$service_slugs = [
+    'service_1',
+    'service_2',
+    'service_3',
+    'service_4',
+    'service_5',
+    'service_6',
+    'service_7',
+];
+
 // ─────────────────────────────────────────────────────────────
 // PROCESSAMENTO DO FORMULÁRIO
 // ─────────────────────────────────────────────────────────────
@@ -29,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = trim($_POST['phone'] ?? '');
     $company = trim($_POST['company'] ?? '');
     $selected_services = array_filter(array_map('trim', $_POST['service_type'] ?? []));
+    $selected_services = array_values(array_intersect($selected_services, $service_slugs));
     $subject = trim($_POST['subject'] ?? '');
     $message = trim($_POST['message'] ?? '');
     $consent = isset($_POST['consent']);
@@ -36,35 +50,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
 
     if ($name === '') {
-        $errors[] = 'Por favor, insira o seu nome.';
+        $errors[] = t('contact.err_name_required');
     }
 
     if (
         $email === ''
         || !filter_var($email, FILTER_VALIDATE_EMAIL)
     ) {
-        $errors[] = 'Por favor, insira um e-mail válido.';
+        $errors[] = t('contact.err_email_required');
     }
 
     if ($phone === '') {
-        $errors[] = 'Por favor, insira o seu telefone.';
+        $errors[] = t('contact.err_phone_required');
     }
 
     if (empty($selected_services)) {
-        $errors[] = 'Por favor, selecione pelo menos um tipo de serviço.';
+        $errors[] = t('contact.err_services_required');
     }
 
     if ($message === '') {
-        $errors[] = 'Por favor, escreva a sua mensagem.';
+        $errors[] = t('contact.err_message_required');
     }
 
     if (!$consent) {
-        $errors[] = 'É necessário aceitar os termos para continuar.';
+        $errors[] = t('contact.err_consent_required');
     }
 
     if (empty($errors)) {
 
-$services_final = implode(', ', $selected_services);
+        // O e-mail para a empresa mantém-se SEMPRE em português,
+        // independentemente do idioma selecionado no site.
+        $pt_translations = loadTranslations('pt');
+
+        $services_final = implode(', ', array_map(
+            function ($slug) use ($pt_translations) {
+                return $pt_translations['contact.' . $slug] ?? $slug;
+            },
+            $selected_services
+        ));
+
+        // Versão no idioma do utilizador, para o e-mail de auto-resposta.
+        $services_final_client = implode(', ', array_map(
+            function ($slug) {
+                return t('contact.' . $slug);
+            },
+            $selected_services
+        ));
 
         $subject_final =
             ($subject !== ''
@@ -138,11 +169,9 @@ if ($sent) {
     // ─────────────────────────────────────────────────
     // ENVIO DE AUTO-RESPOSTA (via includes/mailer.php)
     // ─────────────────────────────────────────────────
-    sendAutoReply($email, $name, $services_final);
+     sendAutoReply($email, $name, $services_final_client, $current_lang);
 
-    $success_message =
-        'Mensagem enviada com sucesso! '
-        . 'A nossa equipa entrará em contacto em breve.';
+    $success_message = t('contact.success');
 
     $name = '';
     $email = '';
@@ -158,8 +187,7 @@ if ($sent) {
             $error_message =
                 $smtpError !== ''
                     ? $smtpError
-                    : 'Não foi possível enviar a mensagem neste momento. '
-                        . 'Tente novamente mais tarde.';
+                    : t('contact.error_generic');
         }
 
     } else {
@@ -171,7 +199,7 @@ if ($sent) {
 ?>
 
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?= e($current_lang) ?>">
 
 <head>
 
@@ -184,10 +212,10 @@ if ($sent) {
 
     <meta
         name="description"
-        content="Entre em contacto com a STECH ENGENHARIA e solicite um orçamento para serviços tecnológicos, redes, segurança, desenvolvimento e manutenção."
+        content="<?= e(t('contact.meta_desc')) ?>"
     >
 
-    <title>Contacto - STECH ENGENHARIA</title>
+    <title><?= e(t('contact.title')) ?></title>
 
     <link
         rel="icon"
@@ -247,49 +275,39 @@ if ($sent) {
 
                             <i class="fa-solid fa-headset"></i>
 
-                            Fale com a STECH
+                            <?= e(t('contact.hero_kicker')) ?>
 
                         </span>
 
                         <h1 class="contact-hero-title">
 
-                            Vamos transformar a sua necessidade
+                            <?= e(t('contact.hero_title')) ?>
 
                             <span>
-                                numa solução profissional.
+                                <?= e(t('contact.hero_title_span')) ?>
                             </span>
 
                         </h1>
 
                         <p class="contact-hero-description">
 
-                            Conte-nos sobre o seu projeto. A nossa equipa está
-                            pronta para orientar, apresentar soluções e preparar
-                            uma proposta adequada ao seu negócio.
+                            <?= e(t('contact.hero_desc')) ?>
 
                         </p>
 
                         <!-- <div class="contact-hero-actions">
 
-                            <a
-                                href="#orcamento"
-                                class="btn btn-light"
-                            >
-                                Solicitar orçamento
+<a href="#orcamento" class="btn btn-light">
+    Solicitar orçamento
+    <i class="fa-solid fa-arrow-down"></i>
+</a>
 
-                                <i class="fa-solid fa-arrow-down"></i>
-                            </a>
 
-                            <a
-                                href="https://wa.me/258842390756?text=Ol%C3%A1%20STECH%20ENGENHARIA%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
-                                target="_blank"
-                                rel="noopener"
-                                class="btn contact-hero-whatsapp"
-                            >
-                                <i class="fa-brands fa-whatsapp"></i>
-
-                                Falar no WhatsApp
-                            </a>
+                            
+<a href="https://wa.me/258842390756?text=Ol%C3%A1%20STECH%20ENGENHARIA%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento." target="_blank" rel="noopener" class="btn contact-hero-whatsapp">
+    <i class="fa-brands fa-whatsapp"></i>
+    Falar no WhatsApp
+</a>
 
                         </div> -->
 
@@ -306,12 +324,11 @@ if ($sent) {
                         <div>
 
                             <strong>
-                                Equipa disponível
+                                <?= e(t('contact.hero_available_title')) ?>
                             </strong>
 
                             <span>
-                                Respondemos normalmente em poucas horas,
-                                durante o horário comercial.
+                                <?= e(t('contact.hero_available_desc')) ?>
                             </span>
 
                         </div>
@@ -339,18 +356,17 @@ if ($sent) {
                 <div>
 
                     <span class="contact-section-kicker">
-                        Estamos disponíveis
+                        <?= e(t('contact.section_kicker')) ?>
                     </span>
 
                     <h2>
-                        Escolha como prefere falar connosco
+                        <?= e(t('contact.section_title')) ?>
                     </h2>
 
                 </div>
 
                 <p>
-                    Utilize os nossos canais diretos ou preencha o formulário
-                    para receber uma proposta personalizada.
+                    <?= e(t('contact.section_desc')) ?>
                 </p>
 
             </div>
@@ -379,31 +395,24 @@ if ($sent) {
                             <div class="contact-aside-content">
 
                                 <span class="contact-aside-label">
-                                    Atendimento direto
+                                    <?= e(t('contact.card_phone_label')) ?>
                                 </span>
 
-                                <h3>Telefone</h3>
+                                <h3><?= e(t('contact.card_phone_title')) ?></h3>
 
-                                <a
-                                    href="tel:+258842390756"
-                                    class="contact-aside-value"
-                                >
-                                    +258 84 239 0756
-                                </a>
+<a href="tel:+258842390756" class="contact-aside-value">
+    +258 84 239 0756
+</a>
 
                                 <p>
-                                    Fale diretamente com a nossa equipa
-                                    comercial e técnica.
+                                    <?= e(t('contact.card_phone_desc')) ?>
                                 </p>
 
-                                <a
-                                    href="tel:+258842390756"
-                                    class="contact-aside-action"
-                                >
-                                    Ligar agora
-
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </a>
+                                
+<a href="tel:+258842390756" class="contact-aside-action">
+    <?= e(t('contact.card_phone_action')) ?>
+    <i class="fa-solid fa-arrow-right"></i>
+</a>
 
                             </div>
 
@@ -423,33 +432,24 @@ if ($sent) {
                             <div class="contact-aside-content">
 
                                 <span class="contact-aside-label">
-                                    Correio eletrónico
+                                    <?= e(t('contact.card_email_label')) ?>
                                 </span>
 
-                                <h3>E-mail</h3>
+                                <h3><?= e(t('contact.card_email_title')) ?></h3>
 
-                                <a
-                                    href="mailto:info@stecheng.co.mz"
-                                    class="contact-aside-value"
-                                >
-                                    info@stecheng.co.mz
-                                </a>
+<a href="mailto:info@stecheng.co.mz" class="contact-aside-value">
+    info@stecheng.co.mz
+</a>
 
                                 <p>
-                                    Envie documentos, requisitos ou detalhes
-                                    sobre o seu projeto.
+                                    <?= e(t('contact.card_email_desc')) ?>
                                 </p>
 
-                                <a
-                                    href="https://mail.google.com/mail/?view=cm&fs=1&to=info@stecheng.co.mz&su=Contacto%20atrav%C3%A9s%20do%20website"
-                                    target="_blank"
-                                    rel="noopener"
-                                    class="contact-aside-action"
-                                >
-                                    Enviar e-mail
-
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </a>
+                                
+<a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@stecheng.co.mz&su=Contacto%20atrav%C3%A9s%20do%20website" target="_blank" rel="noopener" class="contact-aside-action">
+    <?= e(t('contact.card_email_action')) ?>
+    <i class="fa-solid fa-arrow-right"></i>
+</a>
 
                             </div>
 
@@ -469,28 +469,24 @@ if ($sent) {
                             <div class="contact-aside-content">
 
                                 <span class="contact-aside-label">
-                                    Visite-nos
+                                    <?= e(t('contact.card_address_label')) ?>
                                 </span>
 
-                                <h3>Endereço</h3>
+                                <h3><?= e(t('contact.card_address_title')) ?></h3>
 
                                 <div class="contact-aside-value">
-                                    Estrada Nacional Nr. 7
+                                    <?= e(t('contact.card_address_value')) ?>
                                 </div>
 
                                 <p>
-                                    Bairro Azul, Cidade de Tete,<br>
-                                    Província de Tete, Moçambique.
+                                    <?= t('contact.card_address_desc') ?>
                                 </p>
 
-                                <a
-                                    href="#mapa"
-                                    class="contact-aside-action"
-                                >
-                                    Ver localização
-
-                                    <i class="fa-solid fa-arrow-down"></i>
-                                </a>
+                                
+<a href="#mapa" class="contact-aside-action">
+    <?= e(t('contact.card_address_action')) ?>
+    <i class="fa-solid fa-arrow-down"></i>
+</a>
 
                             </div>
 
@@ -510,29 +506,24 @@ if ($sent) {
                             <div class="contact-aside-content">
 
                                 <span class="contact-aside-label">
-                                    Horário
+                                    <?= e(t('contact.card_hours_label')) ?>
                                 </span>
 
-                                <h3>Atendimento</h3>
+                                <h3><?= e(t('contact.card_hours_title')) ?></h3>
 
                                 <div class="contact-aside-value">
-                                    Segunda a sexta
+                                    <?= e(t('contact.card_hours_value')) ?>
                                 </div>
 
                                 <p>
-                                    08h00 às 17h00<br>
-                                    Sábado: 08h00 às 13h00<br>
-                                    Domingo: fechado
+                                    <?= t('contact.card_hours_desc') ?>
                                 </p>
 
-                                <a
-                                    href="#orcamento"
-                                    class="contact-aside-action"
-                                >
-                                    Agendar visita
-
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </a>
+                                
+<a href="#orcamento" class="contact-aside-action">
+    <?= e(t('contact.card_hours_action')) ?>
+    <i class="fa-solid fa-arrow-right"></i>
+</a>
 
                             </div>
 
@@ -544,55 +535,32 @@ if ($sent) {
                         >
 
                             <span class="contact-social-kicker">
-                                Acompanhe a STECH
+                                <?= e(t('contact.social_kicker')) ?>
                             </span>
 
-                            <h3>Redes sociais</h3>
+                            <h3><?= e(t('contact.social_title')) ?></h3>
 
                             <p>
-                                Novidades, projetos, dicas e soluções
-                                tecnológicas.
+                                <?= e(t('contact.social_desc')) ?>
                             </p>
 
                             <div class="contact-social-links">
 
-                                <a
-                                    href="https://wa.me/258842390756"
-                                    target="_blank"
-                                    rel="noopener"
-                                    class="contact-social-button social-wa"
-                                    aria-label="WhatsApp"
-                                >
-                                    <i class="fa-brands fa-whatsapp"></i>
-                                </a>
+<a href="https://wa.me/258842390756" target="_blank" rel="noopener" class="contact-social-button social-wa" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
 
-                                <a
-                                    href="https://www.facebook.com/Stech.Engenharia/"
-                                    target="_blank"
-                                    rel="noopener"
-                                    class="contact-social-button social-fb"
-                                    aria-label="Facebook"
-                                >
-                                    <i class="fa-brands fa-facebook-f"></i>
-                                </a>
+<a href="https://www.facebook.com/Stech.Engenharia/" target="_blank" rel="noopener" class="contact-social-button social-fb" aria-label="Facebook">
+    <i class="fa-brands fa-facebook-f"></i>
+</a>
 
-                                <a
-                                    href="#"
-                                    class="contact-social-button social-ig"
-                                    aria-label="Instagram"
-                                >
-                                    <i class="fa-brands fa-instagram"></i>
-                                </a>
+<a href="#" class="contact-social-button social-ig" aria-label="Instagram">
+    <i class="fa-brands fa-instagram"></i>
+</a>
 
-                                <a
-                                    href="https://mz.linkedin.com/company/stech-engenharia"
-                                    target="_blank"
-                                    rel="noopener"
-                                    class="contact-social-button social-li"
-                                    aria-label="LinkedIn"
-                                >
-                                    <i class="fa-brands fa-linkedin-in"></i>
-                                </a>
+<a href="https://mz.linkedin.com/company/stech-engenharia" target="_blank" rel="noopener" class="contact-social-button social-li" aria-label="LinkedIn">
+    <i class="fa-brands fa-linkedin-in"></i>
+</a>
 
                             </div>
 
@@ -626,16 +594,15 @@ if ($sent) {
                             <div>
 
                                 <span class="contact-form-kicker">
-                                    Conte-nos sobre o projeto
+                                    <?= e(t('contact.form_kicker')) ?>
                                 </span>
 
                                 <h2>
-                                    Solicite um orçamento
+                                    <?= e(t('contact.form_title')) ?>
                                 </h2>
 
                                 <p>
-                                    Preencha os dados abaixo e entraremos em
-                                    contacto assim que possível.
+                                    <?= e(t('contact.form_desc')) ?>
                                 </p>
 
                             </div>
@@ -652,11 +619,7 @@ if ($sent) {
                                 <i class="fa-solid fa-circle-check"></i>
 
                                 <span>
-                                    <?= htmlspecialchars(
-                                        $success_message,
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ) ?>
+                                    <?= e($success_message) ?>
                                 </span>
                             </div>
 
@@ -684,7 +647,7 @@ if ($sent) {
                             <div class="contact-form-progress-header">
 
                                 <span>
-                                    Progresso do formulário
+                                    <?= e(t('contact.progress_label')) ?>
                                 </span>
 
                                 <strong id="formProgressValue">
@@ -717,7 +680,7 @@ if ($sent) {
                                         for="name"
                                         class="form-label"
                                     >
-                                        Nome completo *
+                                        <?= e(t('contact.label_name')) ?>
                                     </label>
 
                                     <div class="contact-input-group">
@@ -733,17 +696,13 @@ if ($sent) {
                                             name="name"
                                             required
                                             autocomplete="name"
-                                            value="<?= htmlspecialchars(
-                                                $name,
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ) ?>"
+                                            value="<?= e($name) ?>"
                                         >
 
                                     </div>
 
                                     <div class="invalid-feedback">
-                                        Insira o seu nome.
+                                        <?= e(t('contact.error_name')) ?>
                                     </div>
 
                                 </div>
@@ -754,7 +713,7 @@ if ($sent) {
                                         for="email"
                                         class="form-label"
                                     >
-                                        E-mail *
+                                        <?= e(t('contact.label_email')) ?>
                                     </label>
 
                                     <div class="contact-input-group">
@@ -770,17 +729,13 @@ if ($sent) {
                                             name="email"
                                             required
                                             autocomplete="email"
-                                            value="<?= htmlspecialchars(
-                                                $email,
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ) ?>"
+                                            value="<?= e($email) ?>"
                                         >
 
                                     </div>
 
                                     <div class="invalid-feedback">
-                                        Insira um e-mail válido.
+                                        <?= e(t('contact.error_email')) ?>
                                     </div>
 
                                 </div>
@@ -791,7 +746,7 @@ if ($sent) {
                                         for="phone"
                                         class="form-label"
                                     >
-                                        Telefone *
+                                        <?= e(t('contact.label_phone')) ?>
                                     </label>
 
                                     <div class="contact-input-group">
@@ -809,17 +764,13 @@ if ($sent) {
                                             inputmode="tel"
                                             autocomplete="tel"
                                             placeholder="84 239 0756"
-                                            value="<?= htmlspecialchars(
-                                                $phone,
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ) ?>"
+                                            value="<?= e($phone) ?>"
                                         >
 
                                     </div>
 
                                     <div class="invalid-feedback">
-                                        Insira o seu telefone.
+                                        <?= e(t('contact.error_phone')) ?>
                                     </div>
 
                                 </div>
@@ -830,7 +781,7 @@ if ($sent) {
                                         for="company"
                                         class="form-label"
                                     >
-                                        Empresa
+                                        <?= e(t('contact.label_company')) ?>
                                     </label>
 
                                     <div class="contact-input-group">
@@ -845,12 +796,8 @@ if ($sent) {
                                             id="company"
                                             name="company"
                                             autocomplete="organization"
-                                            placeholder="Opcional"
-                                            value="<?= htmlspecialchars(
-                                                $company,
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ) ?>"
+                                            placeholder="<?= e(t('contact.optional')) ?>"
+                                            value="<?= e($company) ?>"
                                         >
 
                                     </div>
@@ -862,7 +809,7 @@ if ($sent) {
                                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
                                         <label class="form-label mb-0">
-                                            Tipo de serviço * (pode escolher mais de um)
+                                            <?= e(t('contact.label_services')) ?>
                                         </label>
 
                                         <button
@@ -870,7 +817,7 @@ if ($sent) {
                                             id="clearServicesButton"
                                             class="btn btn-link btn-sm p-0"
                                         >
-                                            Limpar seleção
+                                            <?= e(t('contact.clear_selection')) ?>
                                         </button>
 
                                     </div>
@@ -880,21 +827,9 @@ if ($sent) {
                                         id="servicesGroup"
                                     >
 
-                                        <?php
+                                        <?php foreach ($service_slugs as $index => $slug):
 
-                                        $services = [
-                                            'Segurança Tecnológica (CCTV, Alarmes)',
-                                            'Desenvolvimento Web/Mobile',
-                                            'Redes e Sistemas',
-                                            'Manutenção de Equipamentos',
-                                            'Design Gráfico',
-                                            'Contrato de Manutenção',
-                                            'Outro',
-                                        ];
-
-                                        foreach ($services as $index => $service):
-
-                                            $checked = in_array($service, $selected_services, true);
+                                            $checked = in_array($slug, $selected_services, true);
 
                                         ?>
 
@@ -905,7 +840,7 @@ if ($sent) {
                                                     class="form-check-input service-checkbox"
                                                     id="service_<?= $index ?>"
                                                     name="service_type[]"
-                                                    value="<?= htmlspecialchars($service, ENT_QUOTES, 'UTF-8') ?>"
+                                                    value="<?= e($slug) ?>"
                                                     <?= $checked ? 'checked' : '' ?>
                                                 >
 
@@ -913,7 +848,7 @@ if ($sent) {
                                                     class="form-check-label"
                                                     for="service_<?= $index ?>"
                                                 >
-                                                    <?= htmlspecialchars($service, ENT_QUOTES, 'UTF-8') ?>
+                                                    <?= e(t('contact.' . $slug)) ?>
                                                 </label>
 
                                             </div>
@@ -923,7 +858,7 @@ if ($sent) {
                                     </div>
 
                                     <div class="invalid-feedback d-block" id="servicesError" style="display: none !important;">
-                                        Selecione pelo menos um serviço.
+                                        <?= e(t('contact.error_services')) ?>
                                     </div>
 
                                 </div>
@@ -934,7 +869,7 @@ if ($sent) {
                                         for="subject"
                                         class="form-label"
                                     >
-                                        Assunto
+                                        <?= e(t('contact.label_subject')) ?>
                                     </label>
 
                                     <div class="contact-input-group">
@@ -948,12 +883,8 @@ if ($sent) {
                                             class="form-control"
                                             id="subject"
                                             name="subject"
-                                            placeholder="Resumo da solicitação"
-                                            value="<?= htmlspecialchars(
-                                                $subject,
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ) ?>"
+                                            placeholder="<?= e(t('contact.subject_placeholder')) ?>"
+                                            value="<?= e($subject) ?>"
                                         >
 
                                     </div>
@@ -977,8 +908,7 @@ if ($sent) {
 
                                         <span id="servicePreviewText">
 
-                                            Selecione um serviço para receber
-                                            uma breve orientação.
+                                            <?= e(t('contact.service_preview_placeholder')) ?>
 
                                         </span>
 
@@ -992,7 +922,7 @@ if ($sent) {
                                         for="message"
                                         class="form-label"
                                     >
-                                        Mensagem *
+                                        <?= e(t('contact.label_message')) ?>
                                     </label>
 
                                     <textarea
@@ -1001,27 +931,23 @@ if ($sent) {
                                         name="message"
                                         rows="6"
                                         required
-                                        placeholder="Descreva as suas necessidades, objetivos ou dúvidas..."
-                                    ><?= htmlspecialchars(
-                                        $message,
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ) ?></textarea>
+                                        placeholder="<?= e(t('contact.message_placeholder')) ?>"
+                                    ><?= e($message) ?></textarea>
 
                                     <div class="contact-message-footer">
 
                                         <span>
-                                            Inclua o máximo de detalhes possível.
+                                            <?= e(t('contact.message_hint')) ?>
                                         </span>
 
                                         <span id="messageCounter">
-                                            0 caracteres
+                                            0 <?= e(t('contact.chars')) ?>
                                         </span>
 
                                     </div>
 
                                     <div class="invalid-feedback">
-                                        Escreva a sua mensagem.
+                                        <?= e(t('contact.error_message')) ?>
                                     </div>
 
                                 </div>
@@ -1043,18 +969,17 @@ if ($sent) {
                                             class="form-check-label"
                                             for="consent"
                                         >
-                                            Aceito receber contacto da STECH
-                                            ENGENHARIA e concordo com os
+                                            <?= e(t('contact.consent_text')) ?>
 
                                             <a href="termos.php">
-                                                Termos de Uso
+                                                <?= e(t('contact.consent_terms')) ?>
                                             </a>.
                                         </label>
 
                                     </div>
 
                                     <div class="invalid-feedback">
-                                        Aceite os termos para continuar.
+                                        <?= e(t('contact.error_consent')) ?>
                                     </div>
 
                                 </div>
@@ -1073,7 +998,7 @@ if ($sent) {
 
                                                 <i class="fa-solid fa-paper-plane"></i>
 
-                                                Enviar solicitação
+                                                <?= e(t('contact.submit_btn')) ?>
 
                                             </span>
 
@@ -1084,24 +1009,17 @@ if ($sent) {
                                                     aria-hidden="true"
                                                 ></span>
 
-                                                A enviar...
+                                                <?= e(t('contact.submit_loading')) ?>
 
                                             </span>
 
                                         </button>
 
-                                        <a
-                                            href="https://wa.me/258842390756?text=Ol%C3%A1%20STECH%20ENGENHARIA%2C%20gostaria%20de%20um%20or%C3%A7amento."
-                                            target="_blank"
-                                            rel="noopener"
-                                            class="btn contact-form-whatsapp"
-                                        >
-
-                                            <i class="fa-brands fa-whatsapp"></i>
-
-                                            WhatsApp
-
-                                        </a>
+                                        
+<a href="https://wa.me/258842390756?text=Ol%C3%A1%20STECH%20ENGENHARIA%2C%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener" class="btn contact-form-whatsapp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <?= e(t('contact.whatsapp_btn')) ?>
+</a>
 
                                     </div>
 
@@ -1141,7 +1059,7 @@ if ($sent) {
             <div>
 
                 <span class="contact-map-kicker">
-                    Localização
+                    <?= e(t('contact.map_kicker')) ?>
                 </span>
 
                 <strong>
@@ -1149,19 +1067,14 @@ if ($sent) {
                 </strong>
 
                 <p>
-                    Estrada Nacional Nr. 7,<br>
-                    Bairro Azul, Cidade de Tete.
+                    <?= t('contact.map_desc') ?>
                 </p>
 
-                <a
-                    href="https://www.google.com/maps/dir/?api=1&destination=-16.1406721,33.6246087"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    Traçar rota
-
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
+                
+<a href="https://www.google.com/maps/dir/?api=1&destination=-16.1406721,33.6246087" target="_blank" rel="noopener">
+    <?= e(t('contact.map_route')) ?>
+    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
 
             </div>
 
@@ -1191,7 +1104,29 @@ if ($sent) {
 
 <script src="assets/js/main.js"></script>
 
+<?php
+// Textos usados pelo JavaScript inline abaixo, resolvidos no
+// idioma atual através do sistema i18n.
+$service_descriptions_js = [];
+
+foreach ($service_slugs as $slug) {
+    $num = str_replace('service_', '', $slug);
+    $service_descriptions_js[$slug] = t('contact.service_desc_' . $num);
+}
+
+$contact_js_strings = [
+    'servicePreviewDefault'  => t('contact.service_preview_default'),
+    'messageCounterSingular' => t('contact.char'),
+    'messageCounterPlural'   => t('contact.chars'),
+];
+
+$json_flags = JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
+?>
+
 <script>
+const serviceDescriptions = <?= json_encode($service_descriptions_js, $json_flags) ?>;
+const contactI18n = <?= json_encode($contact_js_strings, $json_flags) ?>;
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // ─────────────────────────────────────────────────────────
@@ -1350,29 +1285,6 @@ const revealObserver = new IntersectionObserver(
     // ORIENTAÇÃO PELO SERVIÇO
     // ─────────────────────────────────────────────────────────
 
-    const serviceDescriptions = {
-        'Segurança Tecnológica (CCTV, Alarmes)':
-            'Instalação, configuração e manutenção de sistemas de CCTV, alarmes e controlo de acesso.',
-
-        'Desenvolvimento Web/Mobile':
-            'Websites, sistemas web e aplicações adaptadas às necessidades do seu negócio.',
-
-        'Redes e Sistemas':
-            'Planeamento, instalação, configuração e suporte de redes e infraestrutura tecnológica.',
-
-        'Manutenção de Equipamentos':
-            'Diagnóstico, reparação e manutenção preventiva de equipamentos tecnológicos.',
-
-        'Design Gráfico':
-            'Identidade visual, materiais promocionais e comunicação gráfica profissional.',
-
-        'Contrato de Manutenção':
-            'Suporte técnico contínuo, manutenção programada e acompanhamento especializado.',
-
-        'Outro':
-            'Descreva a sua necessidade para prepararmos uma solução personalizada.'
-    };
-
 function updateServicePreview() {
 
         if (!servicePreview || !servicePreviewText) {
@@ -1385,8 +1297,7 @@ function updateServicePreview() {
 
         if (checkedBoxes.length === 0) {
 
-            servicePreviewText.textContent =
-                'Selecione um ou mais serviços para receber uma breve orientação.';
+            servicePreviewText.textContent = contactI18n.servicePreviewDefault;
 
             servicePreview.classList.remove('is-active');
 
@@ -1438,8 +1349,8 @@ function updateServicePreview() {
 
         messageCounter.textContent =
             total === 1
-                ? '1 carácter'
-                : total + ' caracteres';
+                ? '1 ' + contactI18n.messageCounterSingular
+                : total + ' ' + contactI18n.messageCounterPlural;
     }
 
     if (messageInput) {

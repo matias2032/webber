@@ -52,23 +52,32 @@ function addRecipientsFromEnv(PHPMailer $mail, string $default = TO_EMAIL): void
     }
 }
 
-function sendAutoReply(string $toEmail, string $toName, string $serviceType = ''): bool
-{
+function sendAutoReply(
+    string $toEmail,
+    string $toName,
+    string $serviceType = '',
+    string $lang = 'pt'
+): bool {
     try {
         $mail = getMailer();
         $mail->addAddress($toEmail, $toName);
-        $mail->Subject = 'Recebemos o seu pedido - STECH ENGENHARIA';
+
+        $t = loadTranslations($lang); // função definida em includes/i18n.php
+
+        $mail->Subject = $t['autoreply.subject'];
 
         $body_lines = [
-            'Olá ' . $toName . ',',
+            $t['autoreply.greeting'] . ' ' . $toName . ',',
             '',
-            'Recebemos o seu pedido de orçamento' . ($serviceType !== '' ? ' do(s) serviço(s) "' . $serviceType . '"' : '') . '.',
+            $serviceType !== ''
+                ? $t['autoreply.received_with_service'] . ' "' . $serviceType . '".'
+                : $t['autoreply.received_no_service'],
             '',
-            'A nossa equipa vai analisar os detalhes e entrará em contacto em breve, geralmente dentro do horário comercial (Segunda a Sexta, 08h00-17h00).',
+            $t['autoreply.body'],
             '',
-            'Se precisar de falar connosco imediatamente, pode ligar para +258 84 239 0756 ou pelo WhatsApp.',
+            $t['autoreply.urgent'],
             '',
-            'Obrigado por contactar a STECH ENGENHARIA.',
+            $t['autoreply.thanks'],
         ];
 
         $mail->Body = implode("\r\n", $body_lines);

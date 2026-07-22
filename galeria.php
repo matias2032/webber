@@ -3,17 +3,10 @@
 $current_page = 'gallery';
 $base_path = $base_path ?? '';
 
+require_once __DIR__ . '/includes/i18n.php';
 require_once __DIR__ . '/includes/gallery_config.php';
 
 $categories = $gallery_categories ?? [];
-
-/**
- * Escapa textos para utilização segura no HTML.
- */
-function e(?string $value): string
-{
-    return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
-}
 
 /**
  * Constrói caminhos internos do website.
@@ -25,7 +18,7 @@ function assetPath(string $basePath, string $path): string
 
 ?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?= e($current_lang) ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -37,10 +30,10 @@ function assetPath(string $basePath, string $path): string
 
     <meta
         name="description"
-        content="Conheça projetos, instalações e serviços realizados pela STECH ENGENHARIA em Moçambique."
+        content="<?= e(t('gallery.meta_desc')) ?>"
     >
 
-    <title>Galeria de Trabalhos - STECH ENGENHARIA</title>
+    <title><?= e(t('gallery.title')) ?></title>
 
     <link
         rel="icon"
@@ -96,69 +89,36 @@ function assetPath(string $basePath, string $path): string
 
                         <span class="gallery-eyebrow">
                             <i class="fa-solid fa-images"></i>
-                            Portfólio STECH
+                            <?= e(t('gallery.hero_eyebrow')) ?>
                         </span>
 
                         <h1 class="gallery-hero-title">
-                            Projetos que demonstram
+                            <?= e(t('gallery.hero_title_line1')) ?>
                             <span>
-                                qualidade, segurança e inovação.
+                                <?= e(t('gallery.hero_title_span')) ?>
                             </span>
                         </h1>
 
                         <p class="gallery-hero-description">
-                            Conheça alguns trabalhos realizados pela nossa
-                            equipa nas áreas de tecnologia, segurança
-                            eletrónica, redes, desenvolvimento e infraestrutura.
+                            <?= e(t('gallery.hero_desc')) ?>
                         </p>
+<div class="gallery-hero-actions">
 
-                        <div class="gallery-hero-actions">
+    <a href="#gallery-projects" class="btn btn-light gallery-hero-button">
+        <?= e(t('gallery.hero_btn_explore')) ?>
+        <i class="fa-solid fa-arrow-down"></i>
+    </a>
 
-                            <a
-                                href="#gallery-projects"
-                                class="btn btn-light gallery-hero-button"
-                            >
-                                Explorar projetos
-                                <i class="fa-solid fa-arrow-down"></i>
-                            </a>
+    <a href="<?= e(assetPath($base_path, 'contato.php#orcamento')) ?>" class="btn btn-outline-light gallery-hero-button">
+        <?= e(t('gallery.hero_btn_quote')) ?>
+        <i class="fa-regular fa-envelope"></i>
+    </a>
 
-                            <a
-                                href="<?= e(assetPath(
-                                    $base_path,
-                                    'contato.php#orcamento'
-                                )) ?>"
-                                class="btn btn-outline-light gallery-hero-button"
-                            >
-                                Solicitar orçamento
-                                <i class="fa-regular fa-envelope"></i>
-                            </a>
-
-                        </div>
+</div>
 
                     </div>
 
                 </div>
-
-                <!-- <div class="col-lg-4 d-none d-lg-block">
-
-                    <div class="gallery-hero-visual">
-
-                        <div class="gallery-hero-icon">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-
-                        <div>
-                            <strong>Experiência comprovada</strong>
-
-                            <span>
-                                Soluções desenvolvidas para diferentes setores
-                                e necessidades.
-                            </span>
-                        </div>
-
-                    </div>
-
-                </div> -->
 
 <div class="col-lg-4">
 
@@ -173,12 +133,11 @@ function assetPath(string $basePath, string $path): string
         <div>
 
             <strong>
-                Experiência comprovada
+                <?= e(t('gallery.hero_card_title')) ?>
             </strong>
 <br>
             <span>
-                Soluções desenvolvidas para diferentes setores
-                e necessidades.
+                <?= e(t('gallery.hero_card_desc')) ?>
             </span>
 
         </div>
@@ -206,15 +165,14 @@ function assetPath(string $basePath, string $path): string
 
                 <div>
                     <span class="gallery-section-kicker">
-                        Trabalhos realizados
+                        <?= e(t('gallery.section_kicker')) ?>
                     </span>
 
-                    <h2>Explore os nossos projetos</h2>
+                    <h2><?= e(t('gallery.section_title')) ?></h2>
                 </div>
 
                 <p>
-                    Cada categoria apresenta uma seleção de imagens dos
-                    serviços executados pela STECH ENGENHARIA.
+                    <?= e(t('gallery.section_desc')) ?>
                 </p>
 
             </div>
@@ -227,10 +185,10 @@ function assetPath(string $basePath, string $path): string
                         <i class="fa-regular fa-images"></i>
                     </div>
 
-                    <h3>Nenhum projeto disponível</h3>
+                    <h3><?= e(t('gallery.empty_title')) ?></h3>
 
                     <p>
-                        Em breve adicionaremos novos trabalhos à nossa galeria.
+                        <?= e(t('gallery.empty_desc')) ?>
                     </p>
 
                 </div>
@@ -246,11 +204,11 @@ function assetPath(string $basePath, string $path): string
                         <?php
                         $categoryPosition++;
 
-                        $title = $category['title'] ?? 'Projeto';
+                        $title = tc($category['title'] ?? t('gallery.category_default_title'));
                         $icon = $category['icon'] ?? 'fa-folder-open';
 
                         $description = trim(
-                            $category['description'] ?? ''
+                            tc($category['description'] ?? '')
                         );
 
                         $images = is_array($category['images'] ?? null)
@@ -263,9 +221,10 @@ function assetPath(string $basePath, string $path): string
                             $category['link'] ?? ''
                         );
 
-                        $externalLabel =
+                        $externalLabel = tc(
                             $category['link_label']
-                            ?? 'Visitar projeto';
+                            ?? t('gallery.category_default_link_label')
+                        );
 
                         $totalImages = count($images);
 
@@ -303,7 +262,7 @@ function assetPath(string $basePath, string $path): string
 
                                     <div>
                                         <span class="gallery-category-label">
-                                            Categoria
+                                            <?= e(t('gallery.category_label')) ?>
                                         </span>
 
                                         <h2 class="gallery-category-title">
@@ -320,26 +279,21 @@ function assetPath(string $basePath, string $path): string
 
                                         <?= $totalImages ?>
 
-                                        <?= $totalImages === 1
-                                            ? 'fotografia'
-                                            : 'fotografias'
-                                        ?>
+                                        <?= e($totalImages === 1
+                                            ? t('gallery.photo_singular')
+                                            : t('gallery.photo_plural')
+                                        ) ?>
                                     </span>
 
-                                    <?php if ($externalLink !== ''): ?>
+<?php if ($externalLink !== ''): ?>
 
-                                        <a
-                                            href="<?= e($externalLink) ?>"
-                                            target="_blank"
-                                            rel="noopener"
-                                            class="gallery-external-link"
-                                        >
-                                            <?= e($externalLabel) ?>
+    <a href="<?= e($externalLink) ?>" target="_blank" rel="noopener" class="gallery-external-link">
+        <?= e($externalLabel) ?>
 
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                        </a>
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
 
-                                    <?php endif; ?>
+<?php endif; ?>
 
                                 </div>
 
@@ -353,12 +307,11 @@ function assetPath(string $basePath, string $path): string
 
                                     <div>
                                         <strong>
-                                            Imagens em preparação
+                                            <?= e(t('gallery.images_empty_title')) ?>
                                         </strong>
 
                                         <span>
-                                            Em breve adicionaremos fotografias
-                                            desta categoria.
+                                            <?= e(t('gallery.images_empty_desc')) ?>
                                         </span>
                                     </div>
 
@@ -392,39 +345,29 @@ function assetPath(string $basePath, string $path): string
                                                     ($imageIndex + 1) * 80;
                                                 ?>
 
- <div class="gallery-image-column">
+<div class="gallery-image-column">
 
-                    <a
-                        href="<?= e($imageUrl) ?>"
-                        target="_blank"
-                        rel="noopener"
-                        class="gallery-image-card"
-                        style="--gallery-image-delay: <?= $imageDelay ?>ms;"
-                        aria-label="Abrir fotografia de <?= e($title) ?>"
-                    >
+    <a href="<?= e($imageUrl) ?>" target="_blank" rel="noopener" class="gallery-image-card" style="--gallery-image-delay: <?= $imageDelay ?>ms;" aria-label="<?= e(sprintf(t('gallery.image_aria_label'), $title)) ?>">
 
-                                                        <img
-                                                            src="<?= e($imageUrl) ?>"
-                                                            class="gallery-image"
-                                                            alt="<?= e($title) ?> - STECH ENGENHARIA"
-                                                            loading="lazy"
-                                                        >
+        <img
+            src="<?= e($imageUrl) ?>"
+            class="gallery-image"
+            alt="<?= e(sprintf(t('gallery.image_alt'), $title)) ?>"
+            loading="lazy"
+        >
 
-                                                        <span class="gallery-image-overlay">
+        <span class="gallery-image-overlay">
+            <span class="gallery-image-open">
+                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+            </span>
+            <span class="gallery-image-caption">
+                <?= e(t('gallery.view_photo')) ?>
+            </span>
+        </span>
 
-                                                            <span class="gallery-image-open">
-                                                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-                                                            </span>
+    </a>
 
-                                                            <span class="gallery-image-caption">
-                                                                Ver fotografia
-                                                            </span>
-
-                                                        </span>
-
-                                                    </a>
-
-                                                </div>
+</div>
 
                                             <?php endforeach; ?>
 
@@ -444,7 +387,7 @@ function assetPath(string $basePath, string $path): string
                                                     <i class="fa-solid fa-circle-info"></i>
                                                 </span>
 
-                                                <h3>Sobre este trabalho</h3>
+                                                <h3><?= e(t('gallery.about_work_title')) ?></h3>
 
                                                 <div class="gallery-description-text">
                                                     <?= nl2br(e($description)) ?>
@@ -469,32 +412,29 @@ function assetPath(string $basePath, string $path): string
                                         STECH ENGENHARIA -->
                                     </span>
 
-                                    <?php if ($hasMoreImages): ?>
+<?php if ($hasMoreImages): ?>
 
-                                        <?php
-                                        $categoryUrl = assetPath(
-                                            $base_path,
-                                            'galeria-servico.php?cat='
-                                            . urlencode((string) $slug)
-                                        );
-                                        ?>
+    <?php
+    $categoryUrl = assetPath(
+        $base_path,
+        'galeria-servico.php?cat='
+        . urlencode((string) $slug)
+    );
+    ?>
 
-                                        <a
-                                            href="<?= e($categoryUrl) ?>"
-                                            class="gallery-view-all"
-                                        >
-                                            <span>
-                                                Ver todas as fotografias
-                                            </span>
+    <a href="<?= e($categoryUrl) ?>" class="gallery-view-all">
+        <span>
+            <?= e(t('gallery.view_all_photos')) ?>
+        </span>
 
-                                            <strong>
-                                                <?= $totalImages ?>
-                                            </strong>
+        <strong>
+            <?= $totalImages ?>
+        </strong>
 
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                        </a>
+        <i class="fa-solid fa-arrow-right"></i>
+    </a>
 
-                                    <?php endif; ?>
+<?php endif; ?>
 
                                 </div>
 
@@ -511,64 +451,6 @@ function assetPath(string $basePath, string $path): string
         </div>
 
     </section>
-
-    <!-- =====================================================
-         CTA FINAL
-         ===================================================== -->
-
-    <!-- <section class="gallery-final-cta">
-
-        <div class="container">
-
-            <div class="gallery-final-cta-card">
-
-                <div>
-
-                    <span class="gallery-final-kicker">
-                        Tem um projeto em mente?
-                    </span>
-
-                    <h2>
-                        Transforme a sua necessidade numa solução profissional.
-                    </h2>
-
-                    <p>
-                        Fale com a nossa equipa e receba uma proposta adequada
-                        às necessidades do seu negócio.
-                    </p>
-
-                </div>
-
-                <div class="gallery-final-actions">
-
-                    <a
-                        href="<?= e(assetPath(
-                            $base_path,
-                            'contato.php#orcamento'
-                        )) ?>"
-                        class="btn btn-danger-brand"
-                    >
-                        Solicitar orçamento
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                    <a
-                        href="https://wa.me/258842390756"
-                        target="_blank"
-                        rel="noopener"
-                        class="btn gallery-whatsapp-button"
-                    >
-                        <i class="fa-brands fa-whatsapp"></i>
-                        Falar no WhatsApp
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section> -->
 
 </main>
 
@@ -611,10 +493,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const observer = new IntersectionObserver(
         function (entries) {
             entries.forEach(function (entry) {
-                /*
-                 * Ativa enquanto uma parte relevante da categoria
-                 * estiver dentro da zona central do ecrã.
-                 */
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-active');
                 } else {
@@ -624,11 +502,6 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         {
             threshold: 0.18,
-
-            /*
-             * A categoria é considerada ativa na faixa central
-             * do viewport, não apenas ao tocar na extremidade.
-             */
             rootMargin: '-12% 0px -18% 0px'
         }
     );
@@ -641,5 +514,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </body>
 </html>
-
-

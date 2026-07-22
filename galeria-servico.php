@@ -1,22 +1,29 @@
 <?php
 //galeria-servico.php
 $current_page = 'gallery';
+$base_path = $base_path ?? '';
+
+require_once __DIR__ . '/includes/i18n.php';
+require_once __DIR__ . '/includes/gallery_config.php';
+
 $cat = isset($_GET['cat']) ? trim($_GET['cat']) : '';
 
-// Usa a configuração centralizada da galeria
-include __DIR__ . '/includes/gallery_config.php';
 $categories = $gallery_categories;
 
 $valid = isset($categories[$cat]);
 $cfg = $valid ? $categories[$cat] : null;
 $images = $valid ? (isset($cfg['images']) ? $cfg['images'] : []) : [];
+
+$title = $valid ? tc($cfg['title'] ?? t('gallery.category_default_title')) : '';
+$icon = $valid ? ($cfg['icon'] ?? 'fa-folder-open') : '';
+$description = $valid ? trim(tc($cfg['description'] ?? '')) : '';
 ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="<?= e($current_lang) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $valid ? ("Galeria: " . htmlspecialchars($cfg['title'])) : 'Galeria - Categoria inválida'; ?> - STECH ENGENHARIA</title>
+    <title><?= $valid ? e("Galeria: " . $title) : e(t('gallery.category_invalid_title')) ?> - STECH ENGENHARIA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css?v=20250825-1015">
@@ -38,20 +45,20 @@ $images = $valid ? (isset($cfg['images']) ? $cfg['images'] : []) : [];
         <div class="container">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                   
+
                     <h1 class="display-6 fw-bold mb-0">
                         <?php if ($valid): ?>
-                            <i class="fa-solid <?php echo $cfg['icon']; ?> me-2"></i> <?php echo htmlspecialchars($cfg['title']); ?>
+                            <i class="fa-solid <?= e($icon) ?> me-2"></i> <?= e($title) ?>
                         <?php else: ?>
-                            Categoria inválida
+                            <?= e(t('gallery.category_invalid_title')) ?>
                         <?php endif; ?>
                     </h1>
-                    <?php if ($valid && !empty($cfg['description'])): ?>
-                        <p class="mt-2 lead mb-0"><?php echo nl2br(htmlspecialchars($cfg['description'])); ?></p>
+                    <?php if ($valid && $description !== ''): ?>
+                        <p class="mt-2 lead mb-0"><?= nl2br(e($description)) ?></p>
                     <?php endif; ?>
                 </div>
                 <div>
-                    <a href="<?php echo $base_path; ?>galeria.php" class="btn btn-light"><i class="fa-solid fa-arrow-left me-2"></i>Voltar para Galeria</a>
+                    <a href="<?= e($base_path) ?>galeria.php" class="btn btn-light"><i class="fa-solid fa-arrow-left me-2"></i><?= e(t('gallery.back_to_gallery')) ?></a>
                 </div>
             </div>
         </div>
@@ -60,18 +67,18 @@ $images = $valid ? (isset($cfg['images']) ? $cfg['images'] : []) : [];
     <section class="py-5">
         <div class="container">
             <?php if (!$valid): ?>
-                <div class="alert alert-danger">A categoria solicitada não existe. Volte para a <a href="<?php echo $base_path; ?>galeria.php">galeria</a>.</div>
+                <div class="alert alert-danger"><?= e(t('gallery.category_invalid_desc')) ?> <a href="<?= e($base_path) ?>galeria.php"><?= e(t('gallery.title').'')?></a></div>
             <?php else: ?>
-                <p class="text-muted mb-4"><?php echo count($images); ?> foto(s) encontrada(s).</p>
+                <p class="text-muted mb-4"><?= count($images) ?> <?= e($images === 1 ? t('gallery.photo_singular') : t('gallery.photo_plural')) ?> <?= e(t('gallery.found_suffix')) ?></p>
                 <?php if (empty($images)): ?>
-                    <div class="alert alert-secondary">Ainda não há fotos nesta categoria.</div>
+                    <div class="alert alert-secondary"><?= e(t('gallery.images_empty_desc')) ?></div>
                 <?php else: ?>
                     <div class="row g-4">
                         <?php foreach ($images as $img): ?>
                             <div class="col-6 col-md-4 col-lg-3">
                                 <div class="card shadow-sm gallery-card h-100">
-                                    <a href="<?php echo $base_path; ?><?php echo htmlspecialchars($img); ?>" target="_blank" rel="noopener">
-                                        <img src="<?php echo $base_path; ?><?php echo htmlspecialchars($img); ?>" class="gallery-img" alt="<?php echo htmlspecialchars($cfg['title']); ?>">
+                                    <a href="<?= e($base_path) ?><?= e($img) ?>" target="_blank" rel="noopener">
+                                        <img src="<?= e($base_path) ?><?= e($img) ?>" class="gallery-img" alt="<?= e($title) ?>">
                                     </a>
                                 </div>
                             </div>

@@ -1,11 +1,13 @@
 <?php
 
+require_once __DIR__ . '/includes/i18n.php';
+
 $current_page = 'home';
 $base_path = '';
 
 ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="<?= e($current_lang) ?>">
 
 <head>
 
@@ -18,11 +20,11 @@ $base_path = '';
 
     <meta
         name="description"
-        content="A STECH ENGENHARIA oferece soluções de segurança tecnológica, redes, desenvolvimento de sistemas, manutenção e transformação digital em Moçambique."
+        content="<?= e(t('home.meta_desc')) ?>"
     >
 
     <title>
-        STECH ENGENHARIA - Tecnologia e Segurança
+        <?= e(t('home.title')) ?>
     </title>
 
     <link
@@ -125,29 +127,25 @@ $base_path = '';
 
                             <i class="fa-solid fa-shield-halved"></i>
 
-                            Segurança · Tecnologia · Inovação
+                            <?= e(t('home.hero_kicker')) ?>
 
                         </span>
 
                         <h1 class="home-hero-title">
 
                             <span class="home-hero-brand">
-                                STECH ENGENHARIA
+                                <?= e(t('home.hero_brand')) ?>
                             </span>
 
                             <span class="home-hero-title-line">
-                                Tecnologia que protege,
-                                conecta e transforma.
+                                <?= e(t('home.hero_title_line')) ?>
                             </span>
 
                         </h1>
 
                         <p class="home-hero-description">
 
-                            Desenvolvemos soluções integradas de segurança
-                            tecnológica, redes, sistemas, desenvolvimento
-                            digital e manutenção para empresas e residências
-                            em Moçambique.
+                            <?= e(t('home.hero_desc')) ?>
 
                         </p>
 
@@ -157,7 +155,7 @@ $base_path = '';
                                 href="servicos.php"
                                 class="btn btn-light"
                             >
-                                Conhecer serviços
+                                <?= e(t('home.hero_btn_services')) ?>
 
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
@@ -168,7 +166,7 @@ $base_path = '';
                             >
                                 <i class="fa-solid fa-paper-plane"></i>
 
-                                Solicitar orçamento
+                                <?= e(t('home.hero_btn_quote')) ?>
                             </a>
 
                         </div>
@@ -179,7 +177,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-circle-check"></i>
 
-                                Soluções personalizadas
+                                <?= e(t('home.hero_trust_1')) ?>
 
                             </span>
 
@@ -187,7 +185,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-circle-check"></i>
 
-                                Suporte técnico local
+                                <?= e(t('home.hero_trust_2')) ?>
 
                             </span>
 
@@ -195,7 +193,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-circle-check"></i>
 
-                                Atendimento profissional
+                                <?= e(t('home.hero_trust_3')) ?>
 
                             </span>
 
@@ -225,17 +223,15 @@ $base_path = '';
                             <span class="home-hero-card-label">
                                 
                                 
-                                Empresa moçambicana
+                                <?= e(t('home.hero_card_label')) ?>
                             </span>
 
                             <strong>
-                                Tecnologia com conhecimento local
+                                <?= e(t('home.hero_card_title')) ?>
                             </strong>
 
                             <p>
-                                Soluções concebidas para os desafios reais
-                                de empresas, instituições e residências
-                                em Moçambique.
+                                <?= e(t('home.hero_card_desc')) ?>
                             </p>
 
                         </div>
@@ -251,11 +247,11 @@ $base_path = '';
                             <div>
 
                                 <strong>
-                                    Segurança
+                                    <?= e(t('home.mini_security_title')) ?>
                                 </strong>
 
                                 <span>
-                                    CCTV, alarmes e acessos
+                                    <?= e(t('home.mini_security_desc')) ?>
                                 </span>
 
                             </div>
@@ -269,11 +265,11 @@ $base_path = '';
                             <div>
 
                                 <strong>
-                                    Desenvolvimento
+                                    <?= e(t('home.mini_dev_title')) ?>
                                 </strong>
 
                                 <span>
-                                    Web, mobile e sistemas
+                                    <?= e(t('home.mini_dev_desc')) ?>
                                 </span>
 
                             </div>
@@ -287,11 +283,11 @@ $base_path = '';
                             <div>
 
                                 <strong>
-                                    Infraestrutura
+                                    <?= e(t('home.mini_infra_title')) ?>
                                 </strong>
 
                                 <span>
-                                    Redes, servidores e Wi-Fi
+                                    <?= e(t('home.mini_infra_desc')) ?>
                                 </span>
 
                             </div>
@@ -305,11 +301,11 @@ $base_path = '';
                             <div>
 
                                 <strong>
-                                    Suporte
+                                    <?= e(t('home.mini_support_title')) ?>
                                 </strong>
 
                                 <span>
-                                    Assistência e manutenção
+                                    <?= e(t('home.mini_support_desc')) ?>
                                 </span>
 
                             </div>
@@ -331,7 +327,7 @@ $base_path = '';
         >
 
             <span>
-                Explorar
+                <?= e(t('home.hero_scroll')) ?>
             </span>
 
             <i class="fa-solid fa-arrow-down"></i>
@@ -365,35 +361,28 @@ $base_path = '';
                     <div class="home-introduction-content">
 
                         <span class="home-section-kicker">
-                            Quem somos
+                            <?= e(t('home.intro_kicker')) ?>
                         </span>
 
                         <h2 class="home-section-title">
 
-                            Tecnologia, segurança e inovação
+                            <?= e(t('home.intro_title')) ?>
 
                             <span>
-                                construídas para Moçambique.
+                                <?= e(t('home.intro_title_span')) ?>
                             </span>
 
                         </h2>
 
                         <p>
 
-                            A STECH ENGENHARIA desenvolve soluções
-                            tecnológicas que protegem operações,
-                            fortalecem empresas e contribuem para a
-                            transformação digital em Moçambique.
+                            <?= e(t('home.intro_p1')) ?>
 
                         </p>
 
                         <p>
 
-                            Trabalhamos desde o diagnóstico e planeamento
-                            até à instalação, configuração, manutenção e
-                            acompanhamento contínuo, entregando soluções
-                            confiáveis e adaptadas à realidade de cada
-                            cliente.
+                            <?= e(t('home.intro_p2')) ?>
 
                         </p>
 
@@ -403,7 +392,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-check"></i>
 
-                                Segurança tecnológica
+                                <?= e(t('home.intro_feature_1')) ?>
 
                             </span>
 
@@ -411,7 +400,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-check"></i>
 
-                                Desenvolvimento de sistemas
+                                <?= e(t('home.intro_feature_2')) ?>
 
                             </span>
 
@@ -419,7 +408,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-check"></i>
 
-                                Redes e infraestrutura
+                                <?= e(t('home.intro_feature_3')) ?>
 
                             </span>
 
@@ -427,7 +416,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-check"></i>
 
-                                Manutenção e suporte
+                                <?= e(t('home.intro_feature_4')) ?>
 
                             </span>
 
@@ -439,7 +428,7 @@ $base_path = '';
                                 href="sobre.php"
                                 class="btn btn-primary"
                             >
-                                Conhecer a STECH
+                                <?= e(t('home.intro_btn_know')) ?>
 
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
@@ -452,7 +441,7 @@ $base_path = '';
 
                                 <i class="fa-solid fa-download"></i>
 
-                                Baixar portfólio
+                                <?= e(t('home.intro_btn_download')) ?>
 
                             </a>
 
@@ -474,18 +463,16 @@ $base_path = '';
                         </span>
 
                         <span class="home-introduction-summary-label">
-                            Empresa moçambicana
+                            <?= e(t('home.intro_summary_label')) ?>
                         </span>
 
                         <h3>
-                            Conhecimento local com soluções profissionais.
+                            <?= e(t('home.intro_summary_title')) ?>
                         </h3>
 
                         <p>
 
-                            Combinamos tecnologia, experiência técnica
-                            e proximidade para responder aos desafios
-                            reais de empresas, instituições e residências.
+                            <?= e(t('home.intro_summary_desc')) ?>
 
                         </p>
 
@@ -494,11 +481,11 @@ $base_path = '';
                             <div class="home-introduction-stat">
 
                                 <strong>
-                                    100%
+                                    <?= e(t('home.stat_1_value')) ?>
                                 </strong>
 
                                 <span>
-                                    Compromisso com o cliente
+                                    <?= e(t('home.stat_1_label')) ?>
                                 </span>
 
                             </div>
@@ -506,11 +493,11 @@ $base_path = '';
                             <div class="home-introduction-stat">
 
                                 <strong>
-                                    360°
+                                    <?= e(t('home.stat_2_value')) ?>
                                 </strong>
 
                                 <span>
-                                    Soluções integradas
+                                    <?= e(t('home.stat_2_label')) ?>
                                 </span>
 
                             </div>
@@ -518,11 +505,11 @@ $base_path = '';
                             <div class="home-introduction-stat">
 
                                 <strong>
-                                    24/7
+                                    <?= e(t('home.stat_3_value')) ?>
                                 </strong>
 
                                 <span>
-                                    Disponibilidade de suporte
+                                    <?= e(t('home.stat_3_label')) ?>
                                 </span>
 
                             </div>
@@ -554,15 +541,15 @@ $base_path = '';
                 <div>
 
                     <span class="home-section-kicker">
-                        O que fazemos
+                        <?= e(t('home.services_kicker')) ?>
                     </span>
 
                     <h2 class="home-section-title">
 
-                        Soluções para cada desafio
+                        <?= e(t('home.services_title')) ?>
 
                         <span>
-                            tecnológico.
+                            <?= e(t('home.services_title_span')) ?>
                         </span>
 
                     </h2>
@@ -571,9 +558,7 @@ $base_path = '';
 
                 <p>
 
-                    Integramos segurança, infraestrutura, desenvolvimento
-                    e suporte para que o cliente possa trabalhar com maior
-                    tranquilidade, eficiência e controlo.
+                    <?= e(t('home.services_desc')) ?>
 
                 </p>
 
@@ -597,33 +582,32 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Segurança tecnológica
+                        <?= e(t('home.service_1_title')) ?>
                     </h3>
 
                     <p>
-                        Sistemas CCTV, alarmes, controlo de acesso,
-                        videomonitoramento e proteção do património.
+                        <?= e(t('home.service_1_desc')) ?>
                     </p>
 
                     <ul>
 
                         <li>
-                            CCTV HD e 4K
+                            <?= e(t('home.service_1_li1')) ?>
                         </li>
 
                         <li>
-                            Alarmes inteligentes
+                            <?= e(t('home.service_1_li2')) ?>
                         </li>
 
                         <li>
-                            Controlo biométrico
+                            <?= e(t('home.service_1_li3')) ?>
                         </li>
 
                     </ul>
 
                     <a href="servico/seguranca-tecnologica.php">
 
-                        Explorar serviço
+                        <?= e(t('home.service_explore')) ?>
 
                         <i class="fa-solid fa-arrow-right"></i>
 
@@ -647,33 +631,32 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Desenvolvimento digital
+                        <?= e(t('home.service_2_title')) ?>
                     </h3>
 
                     <p>
-                        Websites, aplicações móveis, plataformas e sistemas
-                        personalizados para diferentes negócios.
+                        <?= e(t('home.service_2_desc')) ?>
                     </p>
 
                     <ul>
 
                         <li>
-                            Sistemas web
+                            <?= e(t('home.service_2_li1')) ?>
                         </li>
 
                         <li>
-                            Aplicações mobile
+                            <?= e(t('home.service_2_li2')) ?>
                         </li>
 
                         <li>
-                            Integrações e APIs
+                            <?= e(t('home.service_2_li3')) ?>
                         </li>
 
                     </ul>
 
                     <a href="servico/desenvolvimento-web-mobile.php">
 
-                        Explorar serviço
+                        <?= e(t('home.service_explore')) ?>
 
                         <i class="fa-solid fa-arrow-right"></i>
 
@@ -697,33 +680,32 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Redes e sistemas
+                        <?= e(t('home.service_3_title')) ?>
                     </h3>
 
                     <p>
-                        Instalação e configuração de redes, servidores,
-                        Wi-Fi empresarial e infraestrutura corporativa.
+                        <?= e(t('home.service_3_desc')) ?>
                     </p>
 
                     <ul>
 
                         <li>
-                            Redes estruturadas
+                            <?= e(t('home.service_3_li1')) ?>
                         </li>
 
                         <li>
-                            Servidores
+                            <?= e(t('home.service_3_li2')) ?>
                         </li>
 
                         <li>
-                            Backup e cloud
+                            <?= e(t('home.service_3_li3')) ?>
                         </li>
 
                     </ul>
 
                     <a href="servico/redes-e-sistemas.php">
 
-                        Explorar serviço
+                        <?= e(t('home.service_explore')) ?>
 
                         <i class="fa-solid fa-arrow-right"></i>
 
@@ -747,33 +729,32 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Manutenção técnica
+                        <?= e(t('home.service_4_title')) ?>
                     </h3>
 
                     <p>
-                        Manutenção preventiva e corretiva de computadores,
-                        impressoras e outros equipamentos tecnológicos.
+                        <?= e(t('home.service_4_desc')) ?>
                     </p>
 
                     <ul>
 
                         <li>
-                            Diagnóstico técnico
+                            <?= e(t('home.service_4_li1')) ?>
                         </li>
 
                         <li>
-                            Reparação de hardware
+                            <?= e(t('home.service_4_li2')) ?>
                         </li>
 
                         <li>
-                            Suporte no local
+                            <?= e(t('home.service_4_li3')) ?>
                         </li>
 
                     </ul>
 
                     <a href="servico/manutencao-de-equipamentos.php">
 
-                        Explorar serviço
+                        <?= e(t('home.service_explore')) ?>
 
                         <i class="fa-solid fa-arrow-right"></i>
 
@@ -797,33 +778,32 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Design e comunicação
+                        <?= e(t('home.service_5_title')) ?>
                     </h3>
 
                     <p>
-                        Identidade visual, materiais gráficos e comunicação
-                        profissional para marcas e organizações.
+                        <?= e(t('home.service_5_desc')) ?>
                     </p>
 
                     <ul>
 
                         <li>
-                            Logotipos
+                            <?= e(t('home.service_5_li1')) ?>
                         </li>
 
                         <li>
-                            Identidade visual
+                            <?= e(t('home.service_5_li2')) ?>
                         </li>
 
                         <li>
-                            Materiais promocionais
+                            <?= e(t('home.service_5_li3')) ?>
                         </li>
 
                     </ul>
 
                     <a href="servico/design-grafico.php">
 
-                        Explorar serviço
+                        <?= e(t('home.service_explore')) ?>
 
                         <i class="fa-solid fa-arrow-right"></i>
 
@@ -847,33 +827,32 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Equipamentos tecnológicos
+                        <?= e(t('home.service_6_title')) ?>
                     </h3>
 
                     <p>
-                        Comercialização de equipamentos de informática,
-                        segurança, redes e acessórios tecnológicos.
+                        <?= e(t('home.service_6_desc')) ?>
                     </p>
 
                     <ul>
 
                         <li>
-                            Computadores
+                            <?= e(t('home.service_6_li1')) ?>
                         </li>
 
                         <li>
-                            Equipamentos de rede
+                            <?= e(t('home.service_6_li2')) ?>
                         </li>
 
                         <li>
-                            Câmaras e acessórios
+                            <?= e(t('home.service_6_li3')) ?>
                         </li>
 
                     </ul>
 
                     <a href="servico/venda-de-equipamentos.php">
 
-                        Explorar serviço
+                        <?= e(t('home.service_explore')) ?>
 
                         <i class="fa-solid fa-arrow-right"></i>
 
@@ -890,7 +869,7 @@ $base_path = '';
                     class="btn btn-outline-primary"
                 >
 
-                    Ver todos os serviços
+                    <?= e(t('home.services_view_all')) ?>
 
                     <i class="fa-solid fa-arrow-right"></i>
 
@@ -917,25 +896,22 @@ $base_path = '';
                     <div class="home-differentials-content home-reveal">
 
                         <span class="home-section-kicker">
-                            Por que escolher a STECH
+                            <?= e(t('home.diff_kicker')) ?>
                         </span>
 
                         <h2 class="home-section-title">
 
-                            Mais do que tecnologia,
+                            <?= e(t('home.diff_title')) ?>
 
                             <span>
-                                entregamos confiança.
+                                <?= e(t('home.diff_title_span')) ?>
                             </span>
 
                         </h2>
 
                         <p>
 
-                            Cada solução é planeada de acordo com a
-                            necessidade do cliente, considerando segurança,
-                            desempenho, durabilidade e possibilidade de
-                            crescimento.
+                            <?= e(t('home.diff_desc')) ?>
 
                         </p>
 
@@ -943,7 +919,7 @@ $base_path = '';
                             href="contato.php#orcamento"
                             class="btn btn-danger-brand"
                         >
-                            Falar com um especialista
+                            <?= e(t('home.diff_btn')) ?>
 
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
@@ -970,13 +946,11 @@ $base_path = '';
                             <div>
 
                                 <h3>
-                                    Qualidade garantida
+                                    <?= e(t('home.diff_1_title')) ?>
                                 </h3>
 
                                 <p>
-                                    Trabalhamos com soluções e equipamentos
-                                    confiáveis, selecionados de acordo com
-                                    cada projeto.
+                                    <?= e(t('home.diff_1_desc')) ?>
                                 </p>
 
                             </div>
@@ -997,12 +971,11 @@ $base_path = '';
                             <div>
 
                                 <h3>
-                                    Suporte próximo
+                                    <?= e(t('home.diff_2_title')) ?>
                                 </h3>
 
                                 <p>
-                                    Acompanhamos o cliente antes, durante e
-                                    depois da implementação da solução.
+                                    <?= e(t('home.diff_2_desc')) ?>
                                 </p>
 
                             </div>
@@ -1023,13 +996,11 @@ $base_path = '';
                             <div>
 
                                 <h3>
-                                    Segurança em primeiro lugar
+                                    <?= e(t('home.diff_3_title')) ?>
                                 </h3>
 
                                 <p>
-                                    Aplicamos boas práticas para reduzir
-                                    riscos e proteger dados, pessoas e
-                                    infraestruturas.
+                                    <?= e(t('home.diff_3_desc')) ?>
                                 </p>
 
                             </div>
@@ -1050,13 +1021,11 @@ $base_path = '';
                             <div>
 
                                 <h3>
-                                    Soluções personalizadas
+                                    <?= e(t('home.diff_4_title')) ?>
                                 </h3>
 
                                 <p>
-                                    Cada cliente recebe uma proposta
-                                    adaptada aos seus objetivos, orçamento
-                                    e contexto operacional.
+                                    <?= e(t('home.diff_4_desc')) ?>
                                 </p>
 
                             </div>
@@ -1105,7 +1074,7 @@ $base_path = '';
                     </strong>
 
                     <span class="home-metric-label">
-                        Anos de experiência
+                        <?= e(t('home.metric_1_label')) ?>
                     </span>
 
                 </article>
@@ -1132,7 +1101,7 @@ $base_path = '';
                     </strong>
 
                     <span class="home-metric-label">
-                        Projetos concluídos
+                        <?= e(t('home.metric_2_label')) ?>
                     </span>
 
                 </article>
@@ -1159,7 +1128,7 @@ $base_path = '';
                     </strong>
 
                     <span class="home-metric-label">
-                        Clientes satisfeitos
+                        <?= e(t('home.metric_3_label')) ?>
                     </span>
 
                 </article>
@@ -1188,7 +1157,7 @@ $base_path = '';
                     </strong>
 
                     <span class="home-metric-label">
-                        Suporte disponível
+                        <?= e(t('home.metric_4_label')) ?>
                     </span>
 
                 </article>
@@ -1212,15 +1181,15 @@ $base_path = '';
                 <div>
 
                     <span class="home-section-kicker">
-                        Proteção digital
+                        <?= e(t('home.expertise_kicker')) ?>
                     </span>
 
                     <h2 class="home-section-title">
 
-                        Cibersegurança em
+                        <?= e(t('home.expertise_title')) ?>
 
                         <span>
-                            múltiplas camadas.
+                            <?= e(t('home.expertise_title_span')) ?>
                         </span>
 
                     </h2>
@@ -1229,9 +1198,7 @@ $base_path = '';
 
                 <p>
 
-                    Da proteção da rede à gestão de acessos e resposta a
-                    incidentes, combinamos tecnologias e boas práticas para
-                    reduzir riscos operacionais.
+                    <?= e(t('home.expertise_desc')) ?>
 
                 </p>
 
@@ -1244,12 +1211,11 @@ $base_path = '';
                     <i class="fa-solid fa-fire-flame-curved"></i>
 
                     <h3>
-                        Firewall e rede
+                        <?= e(t('home.exp_1_title')) ?>
                     </h3>
 
                     <p>
-                        Controlo de tráfego, segmentação e bloqueio
-                        de acessos não autorizados.
+                        <?= e(t('home.exp_1_desc')) ?>
                     </p>
 
                 </article>
@@ -1259,12 +1225,11 @@ $base_path = '';
                     <i class="fa-solid fa-shield" style="color:red"></i>
 
                     <h3>
-                        Proteção de endpoints
+                        <?= e(t('home.exp_2_title')) ?>
                     </h3>
 
                     <p>
-                        Antivírus, EDR, atualização e controlo de
-                        computadores e servidores.
+                        <?= e(t('home.exp_2_desc')) ?>
                     </p>
 
                 </article>
@@ -1274,12 +1239,11 @@ $base_path = '';
                     <i class="fa-solid fa-cloud-arrow-up"></i>
 
                     <h3>
-                        Segurança em nuvem
+                        <?= e(t('home.exp_3_title')) ?>
                     </h3>
 
                     <p>
-                        Backups, proteção de dados e controlo de
-                        recursos e aplicações cloud.
+                        <?= e(t('home.exp_3_desc')) ?>
                     </p>
 
                 </article>
@@ -1289,12 +1253,11 @@ $base_path = '';
                     <i class="fa-solid fa-fingerprint"></i>
 
                     <h3>
-                        Identidade e acessos
+                        <?= e(t('home.exp_4_title')) ?>
                     </h3>
 
                     <p>
-                        MFA, gestão de privilégios e controlo de
-                        autenticação de utilizadores.
+                        <?= e(t('home.exp_4_desc')) ?>
                     </p>
 
                 </article>
@@ -1304,12 +1267,11 @@ $base_path = '';
                     <i class="fa-solid fa-eye"></i>
 
                     <h3>
-                        Monitoramento
+                        <?= e(t('home.exp_5_title')) ?>
                     </h3>
 
                     <p>
-                        Centralização de eventos, identificação de
-                        anomalias e resposta rápida.
+                        <?= e(t('home.exp_5_desc')) ?>
                     </p>
 
                 </article>
@@ -1319,12 +1281,11 @@ $base_path = '';
                     <i class="fa-solid fa-user-graduate"></i>
 
                     <h3>
-                        Formação e políticas
+                        <?= e(t('home.exp_6_title')) ?>
                     </h3>
 
                     <p>
-                        Capacitação, políticas internas e melhoria
-                        da cultura de segurança.
+                        <?= e(t('home.exp_6_desc')) ?>
                     </p>
 
                 </article>
@@ -1334,12 +1295,11 @@ $base_path = '';
                     <i class="fa-solid fa-shield" style="color:red"></i>
 
                     <h3>
-                        Segurança de e-mail
+                        <?= e(t('home.exp_7_title')) ?>
                     </h3>
 
                     <p>
-                        Proteção contra phishing, spam e outras
-                        ameaças recebidas por correio eletrónico.
+                        <?= e(t('home.exp_7_desc')) ?>
                     </p>
 
                 </article>
@@ -1349,12 +1309,11 @@ $base_path = '';
                     <i class="fa-solid fa-bug-slash"></i>
 
                     <h3>
-                        Pentest e auditoria
+                        <?= e(t('home.exp_8_title')) ?>
                     </h3>
 
                     <p>
-                        Avaliação de vulnerabilidades e identificação
-                        de pontos críticos de segurança.
+                        <?= e(t('home.exp_8_desc')) ?>
                     </p>
 
                 </article>
@@ -1376,22 +1335,21 @@ $base_path = '';
             <div class="text-center home-process-heading home-reveal">
 
                 <span class="home-section-kicker">
-                    Como trabalhamos
+                    <?= e(t('home.process_kicker')) ?>
                 </span>
 
                 <h2 class="home-section-title">
 
-                    Um processo simples,
+                    <?= e(t('home.process_title')) ?>
 
                     <span>
-                        claro e profissional.
+                        <?= e(t('home.process_title_span')) ?>
                     </span>
 
                 </h2>
 
                 <p>
-                    Acompanhamos cada fase para garantir que a solução
-                    responde às necessidades reais do cliente.
+                    <?= e(t('home.process_desc')) ?>
                 </p>
 
             </div>
@@ -1414,12 +1372,11 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Análise
+                        <?= e(t('home.process_1_title')) ?>
                     </h3>
 
                     <p>
-                        Compreendemos as necessidades, os riscos,
-                        o contexto e os objetivos do cliente.
+                        <?= e(t('home.process_1_desc')) ?>
                     </p>
 
                 </article>
@@ -1440,12 +1397,11 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Planeamento
+                        <?= e(t('home.process_2_title')) ?>
                     </h3>
 
                     <p>
-                        Definimos arquitetura, equipamentos, tecnologias,
-                        cronograma e proposta.
+                        <?= e(t('home.process_2_desc')) ?>
                     </p>
 
                 </article>
@@ -1466,12 +1422,11 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Implementação
+                        <?= e(t('home.process_3_title')) ?>
                     </h3>
 
                     <p>
-                        Executamos a instalação, configuração,
-                        integração e testes da solução.
+                        <?= e(t('home.process_3_desc')) ?>
                     </p>
 
                 </article>
@@ -1492,12 +1447,11 @@ $base_path = '';
                     </div>
 
                     <h3>
-                        Acompanhamento
+                        <?= e(t('home.process_4_title')) ?>
                     </h3>
 
                     <p>
-                        Prestamos suporte, manutenção e orientação
-                        após a entrega.
+                        <?= e(t('home.process_4_desc')) ?>
                     </p>
 
                 </article>
@@ -1523,47 +1477,45 @@ $base_path = '';
                     <div class="home-projects-content home-reveal">
 
                         <span class="home-section-kicker">
-                            Projetos realizados
+                            <?= e(t('home.projects_kicker')) ?>
                         </span>
 
                         <h2 class="home-section-title">
 
-                            Experiência visível em
+                            <?= e(t('home.projects_title')) ?>
 
                             <span>
-                                diferentes setores.
+                                <?= e(t('home.projects_title_span')) ?>
                             </span>
 
                         </h2>
 
                         <p>
 
-                            Conheça alguns trabalhos realizados pela
-                            STECH nas áreas de segurança, redes,
-                            manutenção, desenvolvimento e tecnologia.
+                            <?= e(t('home.projects_desc')) ?>
 
                         </p>
 
                         <div class="home-project-tags">
 
                             <span>
-                                CCTV
+                                <?= e(t('home.projects_tag_1')) ?>
                             </span>
 
                             <span>
-                                Redes
+                                <?= e(t('home.projects_tag_2')) ?>
                             </span>
 
                             <span>
-                                Sistemas
+                                <?= e(t('home.projects_tag_3')) ?>
                             </span>
 
                             <span>
-                                Websites
+                                <?= e(t('home.projects_tag_4')) ?>
                             </span>
 
                             <span>
-                                Manutenção
+                                <?= e(t('home.projects_tag_5')) ?>
                             </span>
 
                         </div>
@@ -1572,7 +1524,7 @@ $base_path = '';
                             href="galeria.php"
                             class="btn btn-primary"
                         >
-                            Explorar galeria
+                            <?= e(t('home.projects_btn')) ?>
 
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
@@ -1597,7 +1549,7 @@ $base_path = '';
                             >
 
                             <span>
-                                Ver projeto
+                                <?= e(t('home.project_view')) ?>
                             </span>
 
                         </a>
@@ -1613,7 +1565,7 @@ $base_path = '';
                             >
 
                             <span>
-                                Ver projeto
+                                <?= e(t('home.project_view')) ?>
                             </span>
 
                         </a>
@@ -1629,7 +1581,7 @@ $base_path = '';
                             >
 
                             <span>
-                                Ver projeto
+                                <?= e(t('home.project_view')) ?>
                             </span>
 
                         </a>

@@ -1,12 +1,14 @@
 <?php
+require_once __DIR__ . '/includes/i18n.php';
+
 $current_page = 'services';
 ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="<?= e($current_lang) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nossos Serviços - STECH ENGENHARIA</title>
+    <title><?= e(t('services.title')) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -47,28 +49,23 @@ $current_page = 'services';
 
                         <i class="fa-solid fa-layer-group"></i>
 
-                        Nossos serviços
+                        <?= e(t('services.hero_kicker')) ?>
 
                     </span>
 
                     <h1 class="services-main-hero-title">
 
-                        Soluções completas para proteger,
-                        modernizar e fazer crescer
+                        <?= e(t('services.hero_title')) ?>
 
                         <span>
-                            o seu negócio.
+                            <?= e(t('services.hero_title_span')) ?>
                         </span>
 
                     </h1>
 
                     <p class="services-main-hero-description">
 
-                        Da segurança tecnológica ao desenvolvimento de
-                        sistemas, redes, manutenção e fornecimento de
-                        equipamentos, entregamos soluções profissionais
-                        adaptadas à realidade de empresas e residências
-                        em Moçambique.
+                        <?= e(t('services.hero_desc')) ?>
 
                     </p>
 
@@ -78,7 +75,7 @@ $current_page = 'services';
                             href="#lista-servicos"
                             class="btn btn-light"
                         >
-                            Explorar serviços
+                            <?= e(t('services.btn_explore')) ?>
 
                             <i class="fa-solid fa-arrow-down"></i>
                         </a>
@@ -89,7 +86,7 @@ $current_page = 'services';
                         >
                             <i class="fa-solid fa-paper-plane"></i>
 
-                            Solicitar orçamento
+                            <?= e(t('services.btn_quote')) ?>
                         </a>
 
                     </div>
@@ -112,17 +109,15 @@ $current_page = 'services';
                     <div>
 
                         <span class="services-main-hero-highlight-label">
-                            Soluções integradas
+                            <?= e(t('services.highlight_label')) ?>
                         </span>
 
                         <strong>
-                            Tecnologia com suporte local
+                            <?= e(t('services.highlight_title')) ?>
                         </strong>
 
                         <p>
-                            Planeamento, instalação, configuração,
-                            manutenção e acompanhamento técnico
-                            num único parceiro.
+                            <?= e(t('services.highlight_desc')) ?>
                         </p>
 
                     </div>
@@ -133,20 +128,20 @@ $current_page = 'services';
 
                     <div class="services-main-hero-stat">
 
-                        <strong>7+</strong>
+                        <strong><?= e(t('services.stat_1_value')) ?></strong>
 
                         <span>
-                            Áreas de especialização
+                            <?= e(t('services.stat_1_label')) ?>
                         </span>
 
                     </div>
 
                     <div class="services-main-hero-stat">
 
-                        <strong>360°</strong>
+                        <strong><?= e(t('services.stat_2_value')) ?></strong>
 
                         <span>
-                            Atendimento do projeto ao suporte
+                            <?= e(t('services.stat_2_label')) ?>
                         </span>
 
                     </div>
@@ -171,161 +166,161 @@ $current_page = 'services';
                     <!-- Card: Segurança Tecnológica -->
                     <div class="col-md-6 col-lg-4">
                         <div class="service-pro h-100">
-                            <div class="service-badge bg-danger-subtle text-danger">Mais Popular</div>
+                            <div class="service-badge bg-danger-subtle text-danger"><?= e(t('services.badge_popular')) ?></div>
                             <div class="icon-wrap gradient">
                                 <i class="fa-solid fa-shield"></i>
                             </div>
-                            <h4 class="service-title">Segurança Tecnológica</h4>
-                            <p class="service-desc">Sistemas CCTV, alarmes, controle de acesso e monitoramento 24/7 para proteção do seu património.</p>
+                            <h4 class="service-title"><?= e(t('services.card1_title')) ?></h4>
+                            <p class="service-desc"><?= e(t('services.card1_desc')) ?></p>
                             <ul class="service-list">
-                                <li><i class="fa-solid fa-check text-success"></i> CCTV HD/4K</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Alarmes inteligentes</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Controle biométrico</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Monitoramento remoto</li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card1_li1')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card1_li2')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card1_li3')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card1_li4')) ?></li>
                             </ul>
                             <div class="service-meta">
-                                <div class="metric"><strong>1000+</strong><span> Câmeras</span></div>
-                                <div class="metric"><strong>100+</strong><span> Locais</span></div>
+                                <div class="metric"><strong>1000+</strong><span> <?= e(t('services.card1_metric1')) ?></span></div>
+                                <div class="metric"><strong>100+</strong><span> <?= e(t('services.card1_metric2')) ?></span></div>
                             </div>
-                            <a href="servico/seguranca-tecnologica.php" class="btn btn-light w-100">Saiba Mais <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="servico/seguranca-tecnologica.php" class="btn btn-light w-100"><?= e(t('services.learn_more')) ?> <i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
 
                     <!-- Card: Desenvolvimento Web/Mobile -->
                     <div class="col-md-6 col-lg-4">
                         <div class="service-pro h-100">
-                            <div class="service-badge bg-primary-subtle text-primary">Inovação</div>
+                            <div class="service-badge bg-primary-subtle text-primary"><?= e(t('services.badge_innovation')) ?></div>
                             <div class="icon-wrap gradient">
                                 <i class="fa-solid fa-code"></i>
                             </div>
-                            <h4 class="service-title">Desenvolvimento Web/Mobile</h4>
-                            <p class="service-desc">Sites modernos, aplicativos móveis e sistemas personalizados com tecnologia de ponta.</p>
+                            <h4 class="service-title"><?= e(t('services.card2_title')) ?></h4>
+                            <p class="service-desc"><?= e(t('services.card2_desc')) ?></p>
                             <ul class="service-list">
-                                <li><i class="fa-solid fa-check text-success"></i> Sites responsivos</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Apps iOS/Android</li>
-                                <li><i class="fa-solid fa-check text-success"></i> E-commerce</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Integrações API</li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card2_li1')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card2_li2')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card2_li3')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card2_li4')) ?></li>
                             </ul>
                             <div class="service-meta">
-                                <div class="metric"><strong>150+</strong><span> Projetos</span></div>
-                                <div class="metric"><strong>2+ anos</strong><span> Experiência</span></div>
+                                <div class="metric"><strong>150+</strong><span> <?= e(t('services.card2_metric1')) ?></span></div>
+                                <div class="metric"><strong>2+ anos</strong><span> <?= e(t('services.card2_metric2')) ?></span></div>
                             </div>
-                            <a href="servico/desenvolvimento-web-mobile.php" class="btn btn-light w-100">Saiba Mais <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="servico/desenvolvimento-web-mobile.php" class="btn btn-light w-100"><?= e(t('services.learn_more')) ?> <i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
 
                     <!-- Card: Redes e Sistemas -->
                     <div class="col-md-6 col-lg-4">
                         <div class="service-pro h-100">
-                            <div class="service-badge bg-success-subtle text-success">Essencial</div>
+                            <div class="service-badge bg-success-subtle text-success"><?= e(t('services.badge_essential')) ?></div>
                             <div class="icon-wrap gradient">
                                 <i class="fa-solid fa-network-wired"></i>
                             </div>
-                            <h4 class="service-title">Redes e Sistemas</h4>
-                            <p class="service-desc">Instalação, configuração e manutenção de redes corporativas, servidores e infraestrutura de TI.</p>
+                            <h4 class="service-title"><?= e(t('services.card3_title')) ?></h4>
+                            <p class="service-desc"><?= e(t('services.card3_desc')) ?></p>
                             <ul class="service-list">
-                                <li><i class="fa-solid fa-check text-success"></i> Redes corporativas</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Servidores</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Wi‑Fi empresarial</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Backup em nuvem</li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card3_li1')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card3_li2')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card3_li3')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card3_li4')) ?></li>
                             </ul>
                             <div class="service-meta">
-                                <div class="metric"><strong>200+</strong><span> Projetos</span></div>
-                                <div class="metric"><strong>2+ anos</strong><span> Experiência</span></div>
+                                <div class="metric"><strong>200+</strong><span> <?= e(t('services.card2_metric1')) ?></span></div>
+                                <div class="metric"><strong>2+ anos</strong><span> <?= e(t('services.card2_metric2')) ?></span></div>
                             </div>
-                            <a href="servico/redes-e-sistemas.php" class="btn btn-light w-100">Saiba Mais <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="servico/redes-e-sistemas.php" class="btn btn-light w-100"><?= e(t('services.learn_more')) ?> <i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
 
                     <!-- Card: Manutenção de Equipamentos -->
                     <div class="col-md-6 col-lg-4">
                         <div class="service-pro h-100">
-                            <div class="service-badge bg-warning-subtle text-warning">Suporte 24/7</div>
+                            <div class="service-badge bg-warning-subtle text-warning"><?= e(t('services.badge_support')) ?></div>
                             <div class="icon-wrap gradient">
                                 <i class="fa-solid fa-screwdriver-wrench"></i>
                             </div>
-                            <h4 class="service-title">Manutenção de Equipamentos</h4>
-                            <p class="service-desc">Manutenção preventiva e corretiva de computadores, impressoras e equipamentos tecnológicos.</p>
+                            <h4 class="service-title"><?= e(t('services.card4_title')) ?></h4>
+                            <p class="service-desc"><?= e(t('services.card4_desc')) ?></p>
                             <ul class="service-list">
-                                <li><i class="fa-solid fa-check text-success"></i> Manutenção preventiva</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Reparo de hardware</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Limpeza técnica</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Suporte on‑site</li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card4_li1')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card4_li2')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card4_li3')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card4_li4')) ?></li>
                             </ul>
                             <div class="service-meta">
-                                <div class="metric"><strong>200+</strong><span> Projetos</span></div>
-                                <div class="metric"><strong>2+ anos</strong><span> Experiência</span></div>
+                                <div class="metric"><strong>200+</strong><span> <?= e(t('services.card2_metric1')) ?></span></div>
+                                <div class="metric"><strong>2+ anos</strong><span> <?= e(t('services.card2_metric2')) ?></span></div>
                             </div>
-                            <a href="servico/manutencao-de-equipamentos.php" class="btn btn-light w-100">Saiba Mais <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="servico/manutencao-de-equipamentos.php" class="btn btn-light w-100"><?= e(t('services.learn_more')) ?> <i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
 
                     <!-- Card: Design Gráfico -->
                     <div class="col-md-6 col-lg-4">
                         <div class="service-pro h-100">
-                            <div class="service-badge bg-info-subtle text-info">Criativo</div>
+                            <div class="service-badge bg-info-subtle text-info"><?= e(t('services.badge_creative')) ?></div>
                             <div class="icon-wrap gradient">
                                 <i class="fa-solid fa-pen-ruler"></i>
                             </div>
-                            <h4 class="service-title">Design Gráfico</h4>
-                            <p class="service-desc">Identidade visual, logos e materiais gráficos para marketing digital e impresso.</p>
+                            <h4 class="service-title"><?= e(t('services.card5_title')) ?></h4>
+                            <p class="service-desc"><?= e(t('services.card5_desc')) ?></p>
                             <ul class="service-list">
-                                <li><i class="fa-solid fa-check text-success"></i> Logotipos</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Identidade visual</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Material gráfico</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Design digital</li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card5_li1')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card5_li2')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card5_li3')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card5_li4')) ?></li>
                             </ul>
                             <div class="service-meta">
-                                <div class="metric"><strong>150+</strong><span> Projetos</span></div>
-                                <div class="metric"><strong>2+ anos</strong><span> Experiência</span></div>
+                                <div class="metric"><strong>150+</strong><span> <?= e(t('services.card2_metric1')) ?></span></div>
+                                <div class="metric"><strong>2+ anos</strong><span> <?= e(t('services.card2_metric2')) ?></span></div>
                             </div>
-                            <a href="servico/design-grafico.php" class="btn btn-light w-100">Saiba Mais <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="servico/design-grafico.php" class="btn btn-light w-100"><?= e(t('services.learn_more')) ?> <i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
 
                     <!-- Card: Venda de Equipamentos -->
                     <div class="col-md-6 col-lg-4">
                         <div class="service-pro h-100">
-                            <div class="service-badge bg-success-subtle text-success">Qualidade</div>
+                            <div class="service-badge bg-success-subtle text-success"><?= e(t('services.badge_quality')) ?></div>
                             <div class="icon-wrap gradient">
                                 <i class="fa-solid fa-cart-shopping"></i>
                             </div>
-                            <h4 class="service-title">Venda de Equipamentos</h4>
-                            <p class="service-desc">Comercialização de equipamentos de informática, segurança e acessórios tecnológicos.</p>
+                            <h4 class="service-title"><?= e(t('services.card6_title')) ?></h4>
+                            <p class="service-desc"><?= e(t('services.card6_desc')) ?></p>
                             <ul class="service-list">
-                                <li><i class="fa-solid fa-check text-success"></i> Computadores</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Câmeras de segurança</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Equipamentos de rede</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Acessórios</li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card6_li1')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card6_li2')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card6_li3')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card6_li4')) ?></li>
                             </ul>
                             <div class="service-meta">
-                                <div class="metric"><strong>500+</strong><span> Produtos</span></div>
-                                <div class="metric"><strong>20+</strong><span> Marcas</span></div>
+                                <div class="metric"><strong>500+</strong><span> <?= e(t('services.card6_metric1')) ?></span></div>
+                                <div class="metric"><strong>20+</strong><span> <?= e(t('services.card6_metric2')) ?></span></div>
                             </div>
-                            <a href="servico/venda-de-equipamentos.php" class="btn btn-light w-100">Saiba Mais <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="servico/venda-de-equipamentos.php" class="btn btn-light w-100"><?= e(t('services.learn_more')) ?> <i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
 
                     <!-- Card: Sistemas CCTV Avançados -->
                     <div class="col-md-6 col-lg-4">
                         <div class="service-pro h-100">
-                            <div class="service-badge bg-primary-subtle text-primary">Alta Tecnologia</div>
+                            <div class="service-badge bg-primary-subtle text-primary"><?= e(t('services.badge_hightech')) ?></div>
                             <div class="icon-wrap gradient">
                                 <i class="fa-solid fa-camera"></i>
                             </div>
-                            <h4 class="service-title">Sistemas CCTV Avançados</h4>
-                            <p class="service-desc">Soluções completas de videomonitoramento com tecnologia IP e armazenamento em nuvem.</p>
+                            <h4 class="service-title"><?= e(t('services.card7_title')) ?></h4>
+                            <p class="service-desc"><?= e(t('services.card7_desc')) ?></p>
                             <ul class="service-list">
-                                <li><i class="fa-solid fa-check text-success"></i> Câmeras IP 4K</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Análise inteligente</li>
-                                <li><i class="fa-solid fa-check text-success"></i> Armazenamento nuvem</li>
-                                <li><i class="fa-solid fa-check text-success"></i> App mobile</li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card7_li1')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card7_li2')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card7_li3')) ?></li>
+                                <li><i class="fa-solid fa-check text-success"></i> <?= e(t('services.card7_li4')) ?></li>
                             </ul>
                             <div class="service-meta">
-                                <div class="metric"><strong>1000+</strong><span> Câmeras</span></div>
-                                <div class="metric"><strong>100+</strong><span> Locais</span></div>
+                                <div class="metric"><strong>1000+</strong><span> <?= e(t('services.card1_metric1')) ?></span></div>
+                                <div class="metric"><strong>100+</strong><span> <?= e(t('services.card1_metric2')) ?></span></div>
                             </div>
-                            <a href="servico/sistemas-cctv-avancados.php" class="btn btn-light w-100">Saiba Mais <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="servico/sistemas-cctv-avancados.php" class="btn btn-light w-100"><?= e(t('services.learn_more')) ?> <i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -335,9 +330,9 @@ $current_page = 'services';
         <!-- CTA Section -->
         <section class="py-5 bg-light">
             <div class="container text-center">
-                <h2>Precisa de uma solução personalizada?</h2>
-                <p class="lead mb-4">Fale com nossa equipe</p>
-                <a href="contato.php#orcamento" class="btn btn-primary btn-lg">Contactar</a>
+                <h2><?= e(t('services.cta_title')) ?></h2>
+                <p class="lead mb-4"><?= e(t('services.cta_desc')) ?></p>
+                <a href="contato.php#orcamento" class="btn btn-primary btn-lg"><?= e(t('services.cta_btn')) ?></a>
             </div>
         </section>
     </main>
