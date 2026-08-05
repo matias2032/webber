@@ -625,7 +625,7 @@ if ($sent) {
 
                         <?php endif; ?>
 
-                        <?php if ($error_message !== ''): ?>
+<?php if ($error_message !== ''): ?>
 
                             <div
                                 class="alert alert-danger contact-alert"
@@ -639,6 +639,19 @@ if ($sent) {
                             </div>
 
                         <?php endif; ?>
+
+                        <div
+                            class="alert alert-warning contact-alert"
+                            id="internshipAlert"
+                            role="alert"
+                            style="display: none;"
+                        >
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                            <span>
+                                <?= e(t('contact.internship_notice')) ?>
+                            </span>
+                        </div>
 
                         <!-- Progresso -->
 
@@ -1353,7 +1366,7 @@ function updateServicePreview() {
                 : total + ' ' + contactI18n.messageCounterPlural;
     }
 
-    if (messageInput) {
+if (messageInput) {
         messageInput.addEventListener(
             'input',
             updateMessageCounter
@@ -1363,12 +1376,97 @@ function updateServicePreview() {
     }
 
     // ─────────────────────────────────────────────────────────
+    // DETEÇÃO DE PEDIDOS DE ESTÁGIO / EMPREGO
+    // ─────────────────────────────────────────────────────────
+
+    const internshipAlert = document.getElementById('internshipAlert');
+
+    const internshipKeywords = [
+        'estagio',
+        'estagios',
+        'estagiario',
+        'estagiaria',
+        'vaga de emprego',
+        'vagas de emprego',
+        'emprego',
+        'curriculo',
+        'oportunidade de emprego',
+        'recursos humanos',
+        'contratacao',
+        'trabalhar convosco',
+        'trabalhar na vossa empresa',
+        'internship',
+        'job vacancy'
+    ];
+
+    function normalizeText(text) {
+        return (text || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function containsInternshipKeyword(text) {
+        const normalized = normalizeText(text);
+
+        return internshipKeywords.some(function (keyword) {
+            return normalized.includes(keyword);
+        });
+    }
+
+    function checkInternshipRequest() {
+
+        const subjectValue = document.getElementById('subject')?.value || '';
+        const messageValue = messageInput?.value || '';
+
+        const isInternshipRequest =
+            containsInternshipKeyword(subjectValue)
+            || containsInternshipKeyword(messageValue);
+
+        if (internshipAlert) {
+            internshipAlert.style.display = isInternshipRequest ? 'flex' : 'none';
+        }
+
+        if (submitButton) {
+            submitButton.disabled = isInternshipRequest;
+            submitButton.classList.toggle('is-blocked', isInternshipRequest);
+        }
+
+        return isInternshipRequest;
+    }
+
+    const subjectInputForCheck = document.getElementById('subject');
+
+    if (subjectInputForCheck) {
+        subjectInputForCheck.addEventListener('input', checkInternshipRequest);
+    }
+
+    if (messageInput) {
+        messageInput.addEventListener('input', checkInternshipRequest);
+    }
+
+    checkInternshipRequest();
+
+    // ─────────────────────────────────────────────────────────
     // VALIDAÇÃO E ESTADO DE ENVIO
     // ─────────────────────────────────────────────────────────
 
     if (form) {
 
         form.addEventListener('submit', function (event) {
+
+            if (checkInternshipRequest()) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                internshipAlert?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+
+                return;
+            }
 
             if (!form.checkValidity()) {
 
