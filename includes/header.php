@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="<?php echo $base_path; ?>assets/images/Favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="<?php echo $base_path; ?>assets/images/Favicon.png">
     <meta name="theme-color" content="#ffffff">
-    <script src="<?php echo $base_path; ?>assets/js/protection.js"></script>
+    <!-- <script src="<?php echo $base_path; ?>assets/js/protection.js"></script> -->
 </head>
 <body>
 <header class="sticky-top">

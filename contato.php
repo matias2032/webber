@@ -640,18 +640,62 @@ if ($sent) {
 
                         <?php endif; ?>
 
-                        <div
-                            class="alert alert-warning contact-alert"
-                            id="internshipAlert"
-                            role="alert"
-                            style="display: none;"
-                        >
-                            <i class="fa-solid fa-triangle-exclamation"></i>
+<!-- Modal de Alerta -->
+<div
+    class="modal fade"
+    id="restrictedUseModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
 
-                            <span>
-                                <?= e(t('contact.internship_notice')) ?>
-                            </span>
-                        </div>
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <i class="fa-solid fa-circle-exclamation text-warning me-2"></i>
+                    Aviso
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Fechar"
+                ></button>
+
+            </div>
+
+            <div class="modal-body">
+
+                Este formulário destina-se exclusivamente ao envio de
+                solicitações comerciais, pedidos de orçamento e contratação
+                de serviços da <strong>STECH ENGENHARIA</strong>.
+
+                <br><br>
+
+                Caso a sua mensagem esteja relacionada com vagas de emprego,
+                estágios, recrutamento ou envio de currículo, solicitamos,
+                por gentileza, que utilize os canais específicos para esse
+                fim, quando disponibilizados.
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                >
+                    Compreendi
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 
                         <!-- Progresso -->
 
@@ -1379,25 +1423,104 @@ if (messageInput) {
     // DETEÇÃO DE PEDIDOS DE ESTÁGIO / EMPREGO
     // ─────────────────────────────────────────────────────────
 
-    const internshipAlert = document.getElementById('internshipAlert');
+const restrictedModalElement =
+    document.getElementById('restrictedUseModal');
 
-    const internshipKeywords = [
-        'estagio',
-        'estagios',
-        'estagiario',
-        'estagiaria',
-        'vaga de emprego',
-        'vagas de emprego',
-        'emprego',
-        'curriculo',
-        'oportunidade de emprego',
-        'recursos humanos',
-        'contratacao',
-        'trabalhar convosco',
-        'trabalhar na vossa empresa',
-        'internship',
-        'job vacancy'
-    ];
+// O modal estava aninhado dentro de ".contact-form-card.contact-reveal",
+// que usa "transform" na animação de entrada. Um ancestral com
+// transform muda o "containing block" de elementos position:fixed,
+// fazendo o modal posicionar-se relativamente a essa div em vez do
+// ecrã — por isso o <nav> do cabeçalho ficava por cima e o popup
+// não era clicável. Mover o modal para filho direto do <body>
+// resolve isto na origem, sem depender de z-index.
+if (restrictedModalElement.parentElement !== document.body) {
+    document.body.appendChild(restrictedModalElement);
+}
+
+const restrictedUseModal = new bootstrap.Modal(
+    restrictedModalElement
+);
+
+// Estado do modal controlado apenas pelos eventos oficiais
+// do Bootstrap, nunca por leitura direta da classe "show"
+// (essa leitura é instável durante a transição de fecho e
+// causava múltiplos backdrops empilhados, bloqueando a página).
+let isModalOpen = false;
+
+restrictedModalElement.addEventListener('show.bs.modal', function () {
+    isModalOpen = true;
+});
+
+restrictedModalElement.addEventListener('shown.bs.modal', function () {
+
+    // Garante que o modal fica sempre acima de qualquer
+    // backdrop, mesmo que algo tenha alterado a ordem no DOM
+    // ou o z-index por CSS externo — é isto que resolve o
+    // cursor não mudar para "pointer" sobre o popup.
+    restrictedModalElement.style.zIndex = '1060';
+});
+
+restrictedModalElement.addEventListener('hidden.bs.modal', function () {
+
+    isModalOpen = false;
+
+    // Limpeza defensiva: remove qualquer backdrop e classe
+    // "modal-open" que tenham ficado presos, e destrava o
+    // scroll/cliques da página, independentemente da causa.
+    document
+        .querySelectorAll('.modal-backdrop')
+        .forEach(function (backdrop) {
+            backdrop.remove();
+        });
+
+    document.body.classList.remove('modal-open');
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('padding-right');
+
+    // Reavalia assim que o modal fecha: se a palavra proibida
+    // ainda lá estiver, o popup pode voltar a abrir no próximo
+    // "input" do utilizador.
+});
+
+const internshipKeywords = [
+
+    'estagio',
+    'estagios',
+    'estagiario',
+    'estagiaria',
+
+    'vaga',
+    'vagas',
+    'vaga de emprego',
+    'vagas de emprego',
+
+    'emprego',
+    'trabalho',
+    'curriculo',
+    'cv',
+
+    'recrutamento',
+    'recursos humanos',
+    'rh',
+
+    'contratacao',
+    'contratação',
+
+    'oportunidade de emprego',
+    'candidatura',
+
+    'trabalhar convosco',
+    'trabalhar com voces',
+    'trabalhar na empresa',
+
+    'internship',
+    'job',
+    'career',
+    'careers',
+    'job vacancy',
+    'vacancy'
+
+];
 
     function normalizeText(text) {
         return (text || '')
@@ -1414,26 +1537,34 @@ if (messageInput) {
         });
     }
 
-    function checkInternshipRequest() {
+function checkInternshipRequest() {
 
-        const subjectValue = document.getElementById('subject')?.value || '';
-        const messageValue = messageInput?.value || '';
+    const subjectValue = document.getElementById('subject')?.value || '';
+    const messageValue = messageInput?.value || '';
 
-        const isInternshipRequest =
-            containsInternshipKeyword(subjectValue)
-            || containsInternshipKeyword(messageValue);
+    const currentState =
+        containsInternshipKeyword(subjectValue) ||
+        containsInternshipKeyword(messageValue);
 
-        if (internshipAlert) {
-            internshipAlert.style.display = isInternshipRequest ? 'flex' : 'none';
-        }
-
-        if (submitButton) {
-            submitButton.disabled = isInternshipRequest;
-            submitButton.classList.toggle('is-blocked', isInternshipRequest);
-        }
-
-        return isInternshipRequest;
+    // Exibe o popup sempre que uma palavra proibida for
+    // detetada, desde que o modal não esteja já aberto.
+    if (currentState && !isModalOpen) {
+        restrictedUseModal.show();
     }
+
+    if (submitButton) {
+
+        submitButton.disabled = currentState;
+
+        submitButton.classList.toggle(
+            'is-blocked',
+            currentState
+        );
+
+    }
+
+    return currentState;
+}
 
     const subjectInputForCheck = document.getElementById('subject');
 
@@ -1545,7 +1676,40 @@ if (messageInput) {
         }, 6000);
     }
 });
+
+(function () {
+    const modalEl = document.getElementById('restrictedUseModal');
+    const btn = modalEl.querySelector('.modal-footer .btn-danger');
+    const rect = btn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const topElement = document.elementFromPoint(x, y);
+
+    console.log('Botão "Compreendi":', btn);
+    console.log('Elemento realmente por cima do botão:', topElement);
+    console.log('É o próprio botão?', topElement === btn);
+
+    let ancestor = modalEl.parentElement;
+    while (ancestor) {
+        const style = getComputedStyle(ancestor);
+        if (
+            style.transform !== 'none' ||
+            style.filter !== 'none' ||
+            style.perspective !== 'none' ||
+            style.willChange.includes('transform')
+        ) {
+            console.warn('Ancestral com transform/filter suspeito:', ancestor, {
+                transform: style.transform,
+                filter: style.filter,
+                perspective: style.perspective,
+                willChange: style.willChange
+            });
+        }
+        ancestor = ancestor.parentElement;
+    }
+})();
 </script>
 
 </body>
 </html>
+
