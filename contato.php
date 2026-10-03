@@ -1591,10 +1591,7 @@ function checkInternshipRequest() {
                 event.preventDefault();
                 event.stopPropagation();
 
-                internshipAlert?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
+                restrictedUseModal.show();
 
                 return;
             }

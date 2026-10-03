@@ -239,7 +239,7 @@ return [
 
     'about.team_title' => 'Our Team',
     'about.team_desc' => 'Meet the professionals who make the difference',
-    'about.role_ceo' => 'Managing Director / CEO',
+    'about.role_ceo' => 'Technology Specialist and Supervisor',
     'about.role_admin' => 'Administrator',
     'about.role_eng' => 'IT Engineer',
     'about.role_eng_f' => 'IT Engineer',

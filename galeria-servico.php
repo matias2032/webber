@@ -69,7 +69,7 @@ $description = $valid ? trim(tc($cfg['description'] ?? '')) : '';
             <?php if (!$valid): ?>
                 <div class="alert alert-danger"><?= e(t('gallery.category_invalid_desc')) ?> <a href="<?= e($base_path) ?>galeria.php"><?= e(t('gallery.title').'')?></a></div>
             <?php else: ?>
-                <p class="text-muted mb-4"><?= count($images) ?> <?= e($images === 1 ? t('gallery.photo_singular') : t('gallery.photo_plural')) ?> <?= e(t('gallery.found_suffix')) ?></p>
+                <p class="text-muted mb-4"><?= count($images) ?> <?= e(count($images) === 1 ? t('gallery.photo_singular') : t('gallery.photo_plural')) ?> <?= e(t('gallery.found_suffix')) ?></p>
                 <?php if (empty($images)): ?>
                     <div class="alert alert-secondary"><?= e(t('gallery.images_empty_desc')) ?></div>
                 <?php else: ?>

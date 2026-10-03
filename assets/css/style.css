@@ -7763,3 +7763,632 @@ background-color:#164b7f;
     }
 }
 
+/* ==========================================================
+   HEADER — Seletor de idioma (bandeiras)
+   ========================================================== */
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lang-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    min-width: auto;
+    min-height: 36px;
+
+    padding: 4px 14px 4px 6px;
+
+    border: 1.5px solid var(--stech-border);
+    border-radius: var(--stech-radius-pill);
+
+    color: var(--stech-muted);
+    background: #ffffff;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.lang-pill:hover {
+    color: var(--stech-blue);
+    border-color: var(--stech-blue);
+    transform: translateY(-1px);
+}
+
+.lang-pill.active,
+.lang-pill.active:hover {
+    color: #ffffff;
+    border-color: var(--stech-blue);
+    background: linear-gradient(135deg, var(--stech-blue), var(--stech-blue-dark));
+    box-shadow: 0 8px 18px rgba(22, 75, 127, 0.28);
+    transform: none;
+}
+
+.lang-flag {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    width: 20px;
+    height: 20px;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+
+    /* inativo: bandeira mais apagada */
+    opacity: 0.6;
+    filter: saturate(0.7);
+
+    transition:
+        opacity 0.2s ease,
+        filter 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.lang-pill:hover .lang-flag {
+    opacity: 1;
+    filter: none;
+}
+
+/* ativo: bandeira em destaque, com anel branco */
+.lang-pill.active .lang-flag {
+    opacity: 1;
+    filter: none;
+    box-shadow: 0 0 0 2px #ffffff;
+}
+
+.lang-flag svg {
+    display: block;
+}
+
+/* ==========================================================
+   HEADER — Botão alternar tema
+   ========================================================== */
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+
+    border: 1.5px solid var(--stech-border);
+    border-radius: 50%;
+
+    color: var(--stech-muted);
+    background: var(--stech-bg);
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    color: var(--stech-blue);
+    border-color: var(--stech-blue);
+    transform: translateY(-2px);
+}
+
+.theme-toggle .icon-moon { display: none; }
+[data-tema="escuro"] .theme-toggle .icon-sun  { display: none; }
+[data-tema="escuro"] .theme-toggle .icon-moon { display: block; }
+
+/* ==========================================================
+   DARK MODE
+   Ativado por <html data-tema="escuro"> (ver assets/js/darkmode.js)
+   ========================================================== */
+
+[data-tema="escuro"] {
+    color-scheme: dark;
+
+    --stech-bg: #0b1220;
+    --stech-bg-soft: #101a2b;
+    --stech-surface: #131d2e;
+    --stech-surface-2: #182538;
+
+    --stech-blue: #4a93d9;
+    --stech-blue-btn: #1d5f9e;
+    --stech-blue-soft: #14283f;
+    --stech-red-soft: rgba(240, 24, 36, 0.16);
+
+    --stech-dark: #eef3f8;
+    --stech-text: #c9d4df;
+    --stech-muted: #93a3b5;
+    --stech-border: #243449;
+
+    --stech-shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --stech-shadow-md: 0 14px 38px rgba(0, 0, 0, 0.45);
+    --stech-shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Navbar ---------- */
+
+[data-tema="escuro"] .navbar {
+    background: rgba(11, 18, 32, 0.94) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 26px rgba(0, 0, 0, 0.4);
+}
+
+[data-tema="escuro"] .navbar.navbar-scrolled {
+    background: rgba(11, 18, 32, 0.9) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+[data-tema="escuro"] .navbar-toggler {
+    --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+[data-tema="escuro"] .navbar-toggler:focus {
+    box-shadow: 0 0 0 .2rem rgba(74, 147, 217, 0.35);
+}
+
+[data-tema="escuro"] .navbar-toggler-icon {
+    filter: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.92%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+@media (max-width: 991.98px) {
+    [data-tema="escuro"] .navbar-collapse {
+        background: var(--stech-surface);
+        border-color: var(--stech-border);
+    }
+
+    [data-tema="escuro"] .navbar-nav .nav-link:hover,
+    [data-tema="escuro"] .navbar-nav .nav-link.active {
+        background: var(--stech-blue-soft);
+    }
+}
+
+/* Botões do header */
+
+[data-tema="escuro"] .navbar .nav-item.ms-lg-3 .btn-light {
+    color: var(--stech-dark);
+    border-color: var(--stech-border);
+    background: var(--stech-surface-2);
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.3);
+}
+
+[data-tema="escuro"] .navbar .nav-item.ms-lg-3 .btn-light:hover {
+    color: #ffffff;
+    border-color: var(--stech-blue-btn);
+    background: var(--stech-blue-btn);
+}
+
+/* Seletor de idioma */
+
+[data-tema="escuro"] .lang-pill:not(.active) {
+    color: var(--stech-muted);
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+[data-tema="escuro"] .lang-pill:not(.active):hover {
+    color: var(--stech-blue);
+    border-color: var(--stech-blue);
+}
+
+[data-tema="escuro"] .lang-pill.active,
+[data-tema="escuro"] .lang-pill.active:hover {
+    border-color: var(--stech-blue);
+    background: linear-gradient(135deg, var(--stech-blue-btn), var(--stech-blue-dark));
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Botões e formulários ---------- */
+
+[data-tema="escuro"] .btn-light {
+    color: var(--stech-dark);
+    border-color: var(--stech-border);
+    background: var(--stech-surface-2);
+}
+
+[data-tema="escuro"] .btn-primary {
+    border-color: var(--stech-blue-btn);
+    background: linear-gradient(135deg, var(--stech-blue-btn), var(--stech-blue-dark));
+}
+
+[data-tema="escuro"] .btn-outline-primary:hover {
+    border-color: var(--stech-blue-btn);
+    background: var(--stech-blue-btn);
+}
+
+[data-tema="escuro"] .form-control,
+[data-tema="escuro"] .form-select,
+[data-tema="escuro"] .contact-input-group .form-control,
+[data-tema="escuro"] .contact-input-group .form-select,
+[data-tema="escuro"] .contact-message {
+    color: var(--stech-text);
+    border-color: var(--stech-border);
+    background-color: #0f1a2a;
+}
+
+[data-tema="escuro"] .form-control:focus,
+[data-tema="escuro"] .form-select:focus,
+[data-tema="escuro"] .contact-input-group .form-control:focus,
+[data-tema="escuro"] .contact-input-group .form-select:focus,
+[data-tema="escuro"] .contact-message:focus {
+    border-color: var(--stech-blue);
+    background-color: #0c1626;
+    box-shadow: 0 0 0 0.22rem rgba(74, 147, 217, 0.2);
+}
+
+[data-tema="escuro"] .form-control::placeholder,
+[data-tema="escuro"] .contact-message::placeholder {
+    color: #6f8196;
+}
+
+/* ---------- Cartões gerais ---------- */
+
+[data-tema="escuro"] .card,
+[data-tema="escuro"] .feature-box,
+[data-tema="escuro"] .service-card,
+[data-tema="escuro"] .service-pro,
+[data-tema="escuro"] .why-card,
+[data-tema="escuro"] .team-card,
+[data-tema="escuro"] .accent-card {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+[data-tema="escuro"] .metric-card {
+    border-color: var(--stech-border);
+    background: linear-gradient(180deg, var(--stech-surface), var(--stech-bg-soft));
+}
+
+/* Card segue o tema; o logo fica numa placa branca para continuar legível */
+[data-tema="escuro"] .partner-logo-wrap {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+[data-tema="escuro"] .partner-logo {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+[data-tema="escuro"] .gradient-text {
+    background: linear-gradient(90deg, #ffffff, #9cc7ee 52%, #ff6a72);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+[data-tema="escuro"] .team-member img {
+    border-color: var(--stech-bg);
+}
+
+[data-tema="escuro"] .service-list i {
+    color: #3ddc84;
+    background: rgba(25, 135, 84, 0.2);
+}
+
+[data-tema="escuro"] .icon-soft-success {
+    --badge-soft-bg: rgba(25, 135, 84, 0.2);
+    --badge-soft-fg: #3ddc84;
+}
+
+[data-tema="escuro"] .icon-soft-warning {
+    --badge-soft-bg: rgba(185, 107, 0, 0.22);
+    --badge-soft-fg: #f5b14a;
+}
+
+/* ---------- Serviços ---------- */
+
+[data-tema="escuro"] .services-list-section {
+    background: linear-gradient(180deg, var(--stech-bg-soft), var(--stech-bg) 35%, var(--stech-bg-soft));
+}
+
+/* ---------- Galeria ---------- */
+
+[data-tema="escuro"] .gallery-page {
+    background: linear-gradient(180deg, var(--stech-bg), var(--stech-bg-soft) 52%, var(--stech-bg));
+}
+
+[data-tema="escuro"] .gallery-projects-section {
+    background: linear-gradient(180deg, var(--stech-bg-soft), var(--stech-bg) 32%, var(--stech-bg-soft));
+}
+
+[data-tema="escuro"] .gallery-category-card,
+[data-tema="escuro"] .gallery-category-card:hover {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+html[data-tema="escuro"].js-gallery-reveal .gallery-category-reveal:not(.is-active) {
+    border-color: var(--stech-border);
+    background: rgba(19, 29, 46, 0.6);
+}
+
+html[data-tema="escuro"].js-gallery-reveal .gallery-category-reveal.is-active {
+    border-color: rgba(74, 147, 217, 0.28);
+    background: var(--stech-surface);
+}
+
+[data-tema="escuro"] .gallery-category-description {
+    border-color: var(--stech-border);
+    background: linear-gradient(145deg, var(--stech-surface-2), var(--stech-surface));
+}
+
+[data-tema="escuro"] .gallery-description-icon {
+    color: var(--stech-blue);
+    background: #0f1a2a;
+}
+
+[data-tema="escuro"] .gallery-view-all {
+    color: var(--stech-dark);
+    border-color: var(--stech-border);
+    background: var(--stech-surface-2);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+[data-tema="escuro"] .gallery-view-all:hover {
+    color: #ffffff;
+    border-color: var(--stech-blue-btn);
+    background: var(--stech-blue-btn);
+}
+
+[data-tema="escuro"] .gallery-empty-state {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+/* ---------- Contacto ---------- */
+
+[data-tema="escuro"] .contact-page {
+    background: linear-gradient(180deg, var(--stech-bg), var(--stech-bg-soft) 55%, var(--stech-bg));
+}
+
+[data-tema="escuro"] .contact-main-section {
+    background: linear-gradient(180deg, var(--stech-bg-soft), var(--stech-bg) 30%, var(--stech-bg-soft));
+}
+
+[data-tema="escuro"] .contact-aside-card {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+[data-tema="escuro"] .contact-aside-card:hover {
+    border-color: rgba(74, 147, 217, 0.35);
+    background: var(--stech-surface-2);
+}
+
+[data-tema="escuro"] .contact-aside-card:hover .aside-icon {
+    background: var(--stech-blue-btn);
+}
+
+[data-tema="escuro"] .contact-aside-value {
+    color: var(--stech-dark);
+}
+
+[data-tema="escuro"] .contact-form-card {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-tema="escuro"] .contact-consent {
+    border-color: var(--stech-border);
+    background: #0f1a2a;
+}
+
+[data-tema="escuro"] .contact-service-preview.is-active {
+    border-color: rgba(74, 147, 217, 0.25);
+}
+
+[data-tema="escuro"] .contact-map-overlay-card {
+    border-color: var(--stech-border);
+    background: rgba(19, 29, 46, 0.96);
+}
+
+[data-tema="escuro"] .contact-map-section iframe {
+    filter: invert(0.9) hue-rotate(180deg) saturate(0.7) contrast(0.9);
+}
+
+/* ---------- Home ---------- */
+
+[data-tema="escuro"] .home-page {
+    background: linear-gradient(180deg, var(--stech-bg), var(--stech-bg-soft) 52%, var(--stech-bg));
+}
+
+[data-tema="escuro"] .home-introduction-section {
+    background: linear-gradient(180deg, var(--stech-bg), var(--stech-bg-soft));
+}
+
+[data-tema="escuro"] .home-introduction-panel {
+    border-color: var(--stech-border);
+    background: linear-gradient(135deg, var(--stech-surface), var(--stech-bg-soft));
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+[data-tema="escuro"] .home-introduction-features i {
+    color: #3ddc84;
+    background: rgba(25, 135, 84, 0.2);
+}
+
+[data-tema="escuro"] .home-services-section {
+    background: linear-gradient(180deg, var(--stech-bg-soft), var(--stech-bg) 54%, var(--stech-bg-soft));
+}
+
+[data-tema="escuro"] .home-service-card,
+[data-tema="escuro"] .home-expertise-card,
+[data-tema="escuro"] .home-process-card {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+[data-tema="escuro"] .home-service-card:hover,
+[data-tema="escuro"] .home-expertise-card:hover {
+    border-color: rgba(74, 147, 217, 0.3);
+    box-shadow: 0 20px 46px rgba(0, 0, 0, 0.45);
+}
+
+[data-tema="escuro"] .home-service-number,
+[data-tema="escuro"] .home-process-number {
+    color: rgba(255, 255, 255, 0.09);
+}
+
+[data-tema="escuro"] .home-metrics-section {
+    background: var(--stech-bg);
+}
+
+[data-tema="escuro"] .home-metrics-grid {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.5);
+}
+
+[data-tema="escuro"] .home-metric-value {
+    color: var(--stech-dark);
+}
+
+[data-tema="escuro"] .home-expertise-section {
+    background: linear-gradient(180deg, var(--stech-bg), var(--stech-bg-soft));
+}
+
+[data-tema="escuro"] .home-process-section {
+    background: var(--stech-bg);
+}
+
+[data-tema="escuro"] .home-process-icon {
+    border-color: var(--stech-surface);
+    background-color: var(--stech-blue-btn);
+}
+
+/* Os ícones 01 e 03 têm fundo vermelho inline, por isso este azul só vale para 02 e 04 */
+
+[data-tema="escuro"] .home-process-card:nth-child(odd) .home-process-number {
+    color: #6fb0ea !important;
+}
+
+[data-tema="escuro"] .home-process-card:nth-child(even) .home-process-number {
+    color: #ff6a72 !important;
+}
+
+[data-tema="escuro"] .home-projects-section {
+    background: linear-gradient(180deg, var(--stech-bg-soft), var(--stech-bg));
+}
+
+[data-tema="escuro"] .home-project-tags span {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+/* ---------- Footer ---------- */
+
+[data-tema="escuro"] footer,
+[data-tema="escuro"] .footer-elite {
+    border-top: 1px solid var(--stech-border);
+    background:
+        radial-gradient(circle at 92% 10%, rgba(74, 147, 217, 0.12), transparent 30%),
+        radial-gradient(circle at 8% 100%, rgba(240, 24, 36, 0.07), transparent 28%),
+        linear-gradient(180deg, #070e1a, #04080f);
+}
+
+[data-tema="escuro"] .footer-elite hr {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Linha de destaque no topo, na identidade da marca */
+[data-tema="escuro"] .footer-elite {
+    position: relative;
+}
+
+[data-tema="escuro"] .footer-elite::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--stech-blue) 30%, var(--stech-red) 70%, transparent);
+    opacity: 0.7;
+}
+
+/* Botões sociais: sombra mais discreta sobre fundo escuro */
+[data-tema="escuro"] .footer-elite .btn-icon:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Banner de cookies ---------- */
+
+[data-tema="escuro"] .cookie-consent {
+    border-top: 1px solid var(--stech-border);
+    background: #070e1a;
+}
+
+
+[data-tema="escuro"] .cookie-consent {
+    border-top: 1px solid var(--stech-border);
+    background: #070e1a;
+}
+
+/* ==========================================================
+   DARK MODE — Utilitários Bootstrap com cor fixa
+   (sobre.php, galeria-servico.php e páginas com .bg-white)
+   ========================================================== */
+
+[data-tema="escuro"] .bg-white {
+    background-color: var(--stech-surface) !important;
+}
+
+[data-tema="escuro"] .text-dark {
+    color: var(--stech-dark) !important;
+}
+
+/* Secção de parceiros: fundo da página, para os cards claros dos logos se destacarem */
+[data-tema="escuro"] .partners-section.bg-white {
+    background-color: var(--stech-bg) !important;
+}
+
+/* Cards de missão/visão/valores: superfície + borda visível */
+[data-tema="escuro"] .accent-card.bg-white {
+    background-color: var(--stech-surface) !important;
+    border-color: var(--stech-border);
+}
+
+/* Badge "Parceiros" */
+[data-tema="escuro"] .badge.bg-light {
+    border-color: var(--stech-border) !important;
+}
+
+/* Cartões da galeria de serviço (galeria-servico.php) */
+[data-tema="escuro"] .gallery-card {
+    border-color: var(--stech-border);
+    background: var(--stech-surface);
+}
+
+
+[data-tema="escuro"] .modal-content {
+    color: var(--stech-text);
+    background: var(--stech-surface);
+    border: 1px solid var(--stech-border);
+}
+
+[data-tema="escuro"] .modal-header,
+[data-tema="escuro"] .modal-footer {
+    border-color: var(--stech-border);
+}
+

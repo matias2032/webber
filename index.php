@@ -1222,7 +1222,7 @@ $base_path = '';
 
                 <article class="home-expertise-card home-reveal">
 
-                    <i class="fa-solid fa-shield" style="color:red"></i>
+<i class="fa-solid fa-shield"></i>
 
                     <h3>
                         <?= e(t('home.exp_2_title')) ?>

@@ -239,7 +239,7 @@ return [
 
     'about.team_title' => 'Nossa Equipe',
     'about.team_desc' => 'Conheça os profissionais que fazem a diferença',
-    'about.role_ceo' => 'Director Geral / CEO',
+    'about.role_ceo' => 'Especialista em tecnologia e Supervisor',
     'about.role_admin' => 'Administradora',
     'about.role_eng' => 'Eng. informático',
     'about.role_eng_f' => 'Eng. informática',

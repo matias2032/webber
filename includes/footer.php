@@ -3,8 +3,10 @@
     <div class="container">
         <div class="row g-4">
             <!-- Coluna 1: Logo, descrição e redes -->
-             <a href="<?php echo $base_path; ?>index.php" class="footer-brand d-inline-block mb-3"> <img src="<?php echo $base_path; ?>assets/images/logo.png" alt="STECH ENGENHARIA"></a>
             <div class="col-lg-4">
+                <a href="<?php echo $base_path; ?>index.php" class="footer-brand d-inline-block mb-3">
+                    <img src="<?php echo $base_path; ?>assets/images/logo.png" alt="STECH ENGENHARIA">
+                </a>
                 <p class="mb-3 opacity-75" style="color:white"><?= e(t('footer.about_text')) ?></p>
                 <div class="d-flex gap-2">
                     <a href="https://wa.me/258842390756" target="_blank" rel="noopener" class="btn btn-light btn-icon social-wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
