@@ -433,11 +433,17 @@ $base_path = '';
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
 
-                            <a
-                                href="assets/docs/stecheng.pdf"
-                                download
-                                class="home-text-link"
-                            >
+<?php
+$portfolio_file = ($current_lang === 'en')
+    ? 'assets/docs/stecheng_ENG.pdf'
+    : 'assets/docs/stecheng_PT.pdf';
+?>
+
+<a
+    href="<?= e($portfolio_file) ?>"
+    download
+    class="home-text-link"
+>
 
                                 <i class="fa-solid fa-download"></i>
 
